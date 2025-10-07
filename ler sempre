@@ -1,0 +1,36 @@
+🚀 Fluxo que iremos utilizar!
+
+2️⃣ Antes de começar a trabalhar,🔥🔥🔥 *ATUALIZE seu repositório local* 🔥🔥🔥:  
+   git pull 
+
+3️⃣ Faça as alterações no código e *TESTE tudo* 🔍
+
+4️⃣ 🔥 *Verifique o status das suas alterações com:*   🔥
+   *git status*  
+   Isso mostra quais arquivos foram modificados, quais estão prontos para serem enviados (staged) e quais ainda não.
+
+5️⃣ Adicione as alterações para preparar o commit:  
+   *git add .*
+
+6️⃣ Faça o commit com uma mensagem clara 📝:  
+   *git commit -m "Descrição das alterações feitas"*
+
+7️⃣ Envie as alterações para o repositório remoto (GitHub):  
+<<<<<<< HEAD
+   *git push origin main*
+=======
+   git push 
+>>>>>>> ba87fb0de3417c206f73697595400f0064f19019
+
+⚠ 8️⃣ Se der erro ao fazer o push porque o repositório remoto está atualizado:  
+   - Atualize seu código local com:  
+     git pull  
+   - Resolva conflitos, se aparecerem 🔧  
+   - Faça o commit das resoluções  
+   - Tente enviar o push novamente:  
+     git push origin main
+
+💡 Dicas rápidas:  
+- Sempre faça o **git pull ** antes de começar a mexer no código 🔄  
+- Faça commits pequenos e frequentes com mensagens claras ✅  
+- Comunique sua equipe antes de fazer mudanças importantes para evitar conflitos 📢
