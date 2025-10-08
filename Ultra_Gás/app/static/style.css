@@ -1,0 +1,308 @@
+/* ===== VARIÁVEIS DE TEMA ===== */
+:root {
+    --cor-fundo: #ffffff;
+    --cor-texto: #000000;
+    --cor-botao: #bbbbbb;
+    --cor-botao-texto: #000000;
+    --cor-tom-claro: #ffffff;
+}
+
+.tema-rosa {
+    --cor-fundo: #ffcbcd;
+    --cor-texto: #000000;
+    --cor-botao: #ff7a7a;
+    --cor-botao-texto: #000000;
+    --cor-tom-claro: #fae4e5;
+}
+
+body
+
+/* ===== TEMA AZUL ===== */
+.tema-azul {
+    --cor-fundo: #dae9ff;
+    --cor-texto: #000000;
+    --cor-botao: #99b3cc;
+    --cor-botao-texto: #000000;
+    --cor-tom-claro: #f4f8ff;
+}
+
+
+/* ===== TEMA CINZA ===== */
+.tema-cinza {
+    --cor-fundo: #ebebeb;
+    --cor-texto: #000000;
+    --cor-botao: #bbbbbb;
+    --cor-botao-texto: #000000;
+    --cor-tom-claro: #ffffff;
+}
+
+
+/* ===== TEMA VERDE ===== */
+.tema-verde {
+    --cor-fundo: #d2ffcf;
+    --cor-texto: #000000;
+    --cor-botao: #6ac86f;
+    --cor-botao-texto: #000000;
+    --cor-tom-claro: #e7ffe5;
+}
+
+
+/* ===== TEMA PRETO ===== */
+.tema-preto {
+    --cor-fundo: #1b1b1b;
+    --cor-texto: #ffffff;
+    --cor-botao: #4b4b4b;
+    --cor-botao-texto: #ffffff;
+    --cor-tom-claro: #bbbbbb;
+}
+
+/* ===== GERAL ===== */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: var(--cor-fundo);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--cor-texto);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* ===== CABEÇALHO ===== */
+.header-wrapper {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.brand .brand-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--cor-texto);
+}
+
+/* ===== CARD DE LOGIN ===== */
+.login-card {
+    background-color: var(--cor-botao);
+    border-radius: 20px;
+    padding: 30px 40px;
+    width: 100%;
+    /*Altera a largura do card de login*/
+    max-width: 580px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    text-align: left;
+}
+
+.welcome {
+    color: var(--cor-texto);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* ===== FORM ===== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--cor-tom-claro);
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--cor-texto);
+}
+
+.login-form button {
+    background-color: var(--cor-tom-claro);
+    color: var(--cor-botao-texto);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    align-self: flex-end;
+}
+
+.login-form button:hover {
+    opacity: 0.85;
+}
+
+/* ===== LINKS ===== */
+.links {
+    margin-bottom: 10px;
+}
+
+.forgot-link {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--cor-texto);
+    font-weight: bold;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--cor-texto);
+}
+
+.footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* same width as .login-card so footer aligns under card */
+    max-width: 580px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+
+.footer-left {
+    flex: 0 1 auto;
+    text-align: left;
+}
+
+.footer-right {
+    flex: 0 1 auto;
+    text-align: right;
+}
+
+/* Wrapper que alinha o card e o footer */
+.content-wrapper {
+    width: 100%;
+    max-width: 580px;
+    /* mesma largura do login-card */
+    margin: 0 auto;
+}
+
+.footer-link {
+    color: var(--cor-texto);
+    text-decoration: none;
+    margin: 0 6px;
+    cursor: pointer;
+}
+
+.footer-sep {
+    color: var(--cor-texto);
+    margin: 0 4px;
+}
+
+/* ===== MODAIS ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+    z-index: 999;
+}
+
+.modal-card {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 92%;
+    max-width: 720px;
+    background: var(--cor-tom-claro);
+    border-radius: 8px;
+    border: 10px solid var(--cor-fundo);
+    padding: 22px 24px 26px 24px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 1000;
+}
+
+.modal-card[aria-hidden="false"],
+.modal-overlay[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-card[aria-hidden="false"] {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--cor-texto);
+}
+
+.modal-title {
+    text-align: center;
+    margin: 12px 0 10px 0;
+    font-weight: 700;
+    color: var(--cor-texto);
+}
+
+.modal-content {
+    text-align: left;
+    line-height: 1.5;
+    color: var(--cor-texto);
+}
+
+/* ===== Botões ===== */
+
+/* Botão padrão seguindo o tema da colega */
+.btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background-color: var(--cor-botao);
+    color: var(--cor-botao-texto);
+    transition: none;
+    /* remove qualquer animação */
+}
+
+
+/* Botão secundário */
+.btn-secondary {
+    background-color: var(--cor-botao);
+    color: var(--cor-botao-texto);
+}
+
+/* Botão secundário */
+.btn-secondary {
+    background-color: var(--cor-botao);
+    color: var(--cor-botao-texto);
+}

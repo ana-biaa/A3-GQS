@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Login</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/static/style.css" />
+    </head>
+    <body class="tema-rosa">
+        <!-- Cabeçalho com logo e título -->
+        <div class="header-wrapper">
+            <div class="brand" role="banner">
+                <img
+                    src="/static/img/logo-placeholder.png"
+                    alt="Ultra Gás"
+                    onerror="this.style.display='none'"
+                />
+                <span class="brand-title">Ultra Gás</span>
+            </div>
+        </div>
+
+        <!-- Formulário unificado -->
+        <div class="content-wrapper">
+            <main class="login-card" role="main" aria-label="Área de login">
+                <h2 class="welcome text-left">Bem vindo</h2>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="mb-3">
+                    {% for category, msg in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                        {{ msg }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %} {% endwith %}
+
+                <form
+                    method="post"
+                    action="/login"
+                    class="login-form"
+                    novalidate
+                >
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="E-mail"
+                        required
+                    />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Senha"
+                        required
+                    />
+                    <div class="links">
+                        <a href="#" class="forgot-link">Esqueceu sua senha?</a>
+                    </div>
+                    <button type="submit" class="btn btn-access">
+                        Acessar
+                    </button>
+                </form>
+            </main>
+
+            <!-- Rodapé -->
+            <footer class="page-footer below-card">
+                <div class="footer-row">
+                    <div class="footer-left">
+                        &copy; {{ current_year if current_year is defined else
+                        '2025' }} Ultra Gás
+                    </div>
+                    <div class="footer-right">
+                        <a href="#" class="footer-link" data-modal="about"
+                            >Sobre</a
+                        >
+                        <span class="footer-sep">|</span>
+                        <a href="#" class="footer-link" data-modal="privacy"
+                            >Privacidade</a
+                        >
+                        <span class="footer-sep">|</span>
+                        <a href="#" class="footer-link" data-modal="contact"
+                            >Contato</a
+                        >
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Modais -->
+        <div id="modal-overlay" class="modal-overlay" aria-hidden="true"></div>
+
+        <div
+            id="modal-about"
+            class="modal-card"
+            role="dialog"
+            aria-labelledby="modal-about-title"
+            aria-hidden="true"
+        >
+            <button class="modal-close" aria-label="Fechar">×</button>
+            <h3 id="modal-about-title" class="modal-title">Sobre</h3>
+            <div class="modal-content">
+                Texto sobre a empresa e informações relevantes. Alinhe eventual
+                texto à esquerda aqui.
+            </div>
+        </div>
+
+        <div
+            id="modal-privacy"
+            class="modal-card"
+            role="dialog"
+            aria-labelledby="modal-privacy-title"
+            aria-hidden="true"
+        >
+            <button class="modal-close" aria-label="Fechar">×</button>
+            <h3 id="modal-privacy-title" class="modal-title">Privacidade</h3>
+            <div class="modal-content">
+                Informações sobre política de privacidade e uso de dados. Texto
+                alinhado à esquerda.
+            </div>
+        </div>
+
+        <div
+            id="modal-contact"
+            class="modal-card"
+            role="dialog"
+            aria-labelledby="modal-contact-title"
+            aria-hidden="true"
+        >
+            <button class="modal-close" aria-label="Fechar">×</button>
+            <h3 id="modal-contact-title" class="modal-title">Contato</h3>
+            <div class="modal-content">
+                Informações de contato, telefone, e-mail e endereço. Texto
+                alinhado à esquerda.
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/modals.js"></script>
+    </body>
+</html>
