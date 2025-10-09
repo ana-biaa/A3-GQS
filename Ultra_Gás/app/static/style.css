@@ -15,8 +15,6 @@
     --cor-tom-claro: #fae4e5;
 }
 
-body
-
 /* ===== TEMA AZUL ===== */
 .tema-azul {
     --cor-fundo: #dae9ff;
@@ -243,6 +241,11 @@ body {
     visibility: hidden;
     transition: opacity 0.18s ease, transform 0.18s ease;
     z-index: 1000;
+    box-sizing: border-box;
+    /* limita altura para caber na viewport e permite rolagem interna */
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-card[aria-hidden="false"],
@@ -277,6 +280,8 @@ body {
     text-align: left;
     line-height: 1.5;
     color: var(--cor-texto);
+    padding-right: 6px;
+    /* evitar corte de scrollbar no conteúdo */
 }
 
 /* ===== Botões ===== */
@@ -305,4 +310,137 @@ body {
 .btn-secondary {
     background-color: var(--cor-botao);
     color: var(--cor-botao-texto);
+}
+
+/* ===== MOBILE / RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .header-wrapper {
+        margin-bottom: 8px;
+    }
+
+    .brand img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .brand .brand-title {
+        font-size: 28px;
+    }
+
+    .login-card {
+        padding: 20px;
+        border-radius: 16px;
+        max-width: 520px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    }
+
+    .login-card .welcome,
+    .login-form .links {
+        margin-left: 3px !important;
+    }
+
+    /* ensure content and footer use the same centered container */
+    .content-wrapper {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 8px;
+    }
+
+    .welcome {
+        font-size: 1.25rem;
+    }
+
+    .login-form input {
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .login-form button,
+    .btn {
+        width: 100%;
+        align-self: stretch;
+        padding: 12px;
+        border-radius: 16px;
+    }
+
+    /* reorganiza os elementos do footer e centraliza em relação ao card */
+    .footer-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 520px;
+        margin: 12px auto 0;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-right {
+        order: 1;
+    }
+
+    .footer-left {
+        order: 2;
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+    .modal-card {
+        width: 94%;
+        max-width: 560px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 420px) {
+    .brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand .brand-title {
+        font-size: 22px;
+    }
+
+    .login-card {
+        padding: 16px;
+        max-width: 100%;
+    }
+
+    .welcome {
+        font-size: 1.1rem;
+    }
+
+    .login-form input {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 14px;
+    }
+
+    .btn {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 14px;
+    }
+
+    .modal-card {
+        max-height: calc(100vh - 40px);
+        padding: 14px;
+    }
 }
