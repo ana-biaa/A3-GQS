@@ -1,7 +1,7 @@
 const body = document.querySelector("body"),
     sidebar = body.querySelector(".sidebar"),
     toggle = body.querySelector(".toggle"),
-    searchBtn = body.querySelector(".search-box"),
+    // searchBtn = body.querySelector(".search-box"),
     modeSwitch = body.querySelector(".toggle-switch"),
     modeText = body.querySelector(".mode-text");
 // Garante que a sidebar esteja aberta ao carregar a página
@@ -13,23 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
 let previousBodyClass = body.className;
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
-})
-
-searchBtn.addEventListener("click", () => {
-    sidebar.classList.remove("close");
-})
-
-modeSwitch.addEventListener("click", () => {
-    if (!body.classList.contains("dark")) {
-        // Salva a classe anterior antes de ativar o dark mode
-        previousBodyClass = body.className;
-        body.className = "dark";
-        modeText.innerText = "Light mode";
-    } else {
-        // Restaura a classe anterior ao desativar o dark mode
-        body.className = previousBodyClass;
-        modeText.innerText = "Dark mode";
-    }
 })
 
 // Seleciona todos os links do menu
@@ -54,3 +37,22 @@ menuLinks.forEach(link => {
         sidebar.classList.add('close');
     });
 });
+
+//Removido o search box para focar na navegação por links
+
+// searchBtn.addEventListener("click", () => {
+//     sidebar.classList.remove("close");
+// })
+
+// modeSwitch.addEventListener("click", () => {
+//     if (!body.classList.contains("dark")) {
+//         // Salva a classe anterior antes de ativar o dark mode
+//         previousBodyClass = body.className;
+//         body.className = "dark";
+//         modeText.innerText = "Light mode";
+//     } else {
+//         // Restaura a classe anterior ao desativar o dark mode
+//         body.className = previousBodyClass;
+//         modeText.innerText = "Dark mode";
+//     }
+// })

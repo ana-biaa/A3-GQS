@@ -7,23 +7,6 @@
     box-sizing: border-box;
 }
 
-body.dark {
-    /* Cores do tema escuro */
-    --cor-fundo: #18191a;
-    /* Cor de fundo principal - cinza muito escuro */
-    --cor-secundaria: #242526;
-    /* Cor da sidebar e cards - cinza escuro */
-    --cor-botao: #3a3b3c;
-    /* Cor dos botões - cinza médio */
-    --recurso-embreve-removido: #3a3b3c;
-    /* Cor dos elementos interativos - mesmo cinza dos botões */
-    --recurso-embreve-removido2: #fff;
-    /* Cor do switch de tema - branco */
-    --cor-texto: #ccc;
-    /* Cor do texto geral - cinza claro */
-}
-
-
 body {
     height: 100vh;
     background: var(--cor-fundo);
@@ -116,9 +99,9 @@ header .image-text .header-text {
     transform: translateY(-50%);
 }
 
-body.dark .sidebar header .toggle {
+/* body.dark .sidebar header .toggle {
     color: var(--cor-texto);
-}
+} */
 
 .sidebar .menu {
     margin-top: 35px;
@@ -166,13 +149,66 @@ body.dark .sidebar header .toggle {
     color: var(--cor-secundaria)
 }
 
-body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
-    color: var(--cor-texto)
+.sidebar .menu-bar {
+    height: calc(100% - 150px);
+    /*Espaço entre botões inferiores e superiores*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+.home {
+    position: relative;
+    left: 250px;
+    height: 100vh;
+    width: calc(100% - 250px);
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
 
-.sidebar .search-box {
+.home .text {
+    font-size: 30px;
+    font-weight: 500;
+    padding: 8px 40px;
+    color: var(--cor-texto);
+}
+
+.sidebar.close~.home {
+    left: 88px;
+    width: calc(100% - 88px);
+}
+
+.conteudo {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.conteudo.ativo {
+    display: block;
+    opacity: 1;
+}
+
+/* ======================
+    Conteudo removido
+========================= */
+
+/* body.dark {
+    --cor-fundo: #18191a;
+    --cor-secundaria: #242526;
+    --cor-botao: #3a3b3c;
+    --recurso-embreve-removido: #3a3b3c;
+    --recurso-embreve-removido2: #fff;
+    --cor-texto: #ccc; 
+} */
+
+/* body.dark .sidebar li a:hover .icon,
+body.dark .sidebar li a:hover .text {
+    color: var(--cor-texto)
+} */
+
+
+/* .sidebar .search-box {
     background: var(--recurso-embreve-removido);
     border-radius: 6px;
     transition: var(--tran-05);
@@ -188,17 +224,10 @@ body.dark .sidebar li a:hover .text {
     font-weight: 500;
     background: var(--recurso-embreve-removido);
     transition: var(--tran-05);
-}
+} */
 
-.sidebar .menu-bar {
-    height: calc(100% - 150px);
-    /*Espaço entre botões inferiores e superiores*/
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.menu-bar .mode {
+/* .menu-bar .mode {
     position: relative;
     border-radius: 6px;
     background: var(--recurso-embreve-removido);
@@ -265,39 +294,7 @@ body.dark .menu-bar .mode i.bx-moon {
 
 body.dark .switch::before {
     left: 24px;
-}
-
-.home {
-    position: relative;
-    left: 250px;
-    height: 100vh;
-    width: calc(100% - 250px);
-    background: var(--cor-fundo);
-    transition: var(--tran-05);
-}
-
-.home .text {
-    font-size: 30px;
-    font-weight: 500;
-    padding: 8px 40px;
-    color: var(--cor-texto);
-}
-
-.sidebar.close~.home {
-    left: 88px;
-    width: calc(100% - 88px);
-}
-
-.conteudo {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.conteudo.ativo {
-    display: block;
-    opacity: 1;
-}
+} */
 
 /* =====================
    DASHBOARD PRINCIPAL

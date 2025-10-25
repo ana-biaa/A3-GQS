@@ -14,9 +14,9 @@
     --cor-botao: #bbbbbb;
 
     /* Remover: Search e Light and Dark Mode */
-    --recurso-embreve-removido: #05021d;
+    /* --recurso-embreve-removido: #05021d; */
     /* Remover: Cor do switch de tema - cinza claro */
-    --recurso-embreve-removido2: #f11515;
+    /* --recurso-embreve-removido2: #f11515; */
 
     /* Transições */
     --tran-02: all 0.2s ease;
