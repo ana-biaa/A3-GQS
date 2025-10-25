@@ -7,80 +7,22 @@
     box-sizing: border-box;
 }
 
-:root {
-    /* Cores do tema claro */
-    --cor-fundo: #ffffff;
-    /* Cor de fundo principal - rosa suave */
-    --cor-texto: #000000;
-    /* Cor do texto geral - preto */
-    --cor-botao: #bbbbbb;
-    /* Cor dos botões e elementos interativos - rosa médio */
-    --cor-botao-texto: #000000;
-    /* Cor do texto dos botões - preto */
-    --cor-tom-claro: #ffffff;
-    /* Cor de fundo da sidebar e cards - rosa claro */
-    --cor-botao-light: #f6f5ff;
-    /* Cor de fundo para elementos interativos - branco violeta */
-    --toggle-color: #ddd;
-    /* Cor do switch de tema - cinza claro */
-
-
-
-    --tran-02: all 0.2s ease;
-    --tran-03: all 0.3s ease;
-    --tran-04: all 0.4s ease;
-    --tran-05: all 0.5s ease;
-}
-
-.tema-rosa {
-    /* Cores do tema claro */
-    --cor-fundo: #ffcbcd;
-    /* Cor de fundo principal - rosa suave */
-    --cor-texto: #000000;
-    /* Cor do texto geral - preto */
-    --cor-botao: #ff7a7a;
-    /* Cor dos botões e elementos interativos - rosa médio */
-    --cor-botao-texto: #000000;
-    /* Cor do texto dos botões - preto */
-    --cor-tom-claro: #fae4e5;
-    /* Cor de fundo da sidebar e cards - rosa claro */
-    --cor-botao-light: #f6f5ff;
-    /* Cor de fundo para elementos interativos - branco violeta */
-    --toggle-color: #ff7a7a;
-    /* Cor do switch de tema - cinza claro */
-
-
-
-
-    --tran-02: all 0.2s ease;
-    --tran-03: all 0.3s ease;
-    --tran-04: all 0.4s ease;
-    --tran-05: all 0.5s ease;
-}
-
-.tema-cinza {
-    --cor-fundo: #ebebeb;
-    --cor-texto: #000000;
-    --cor-botao: #bbbbbb;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #ffffff;
-}
-
 body.dark {
     /* Cores do tema escuro */
     --cor-fundo: #18191a;
     /* Cor de fundo principal - cinza muito escuro */
-    --cor-tom-claro: #242526;
+    --cor-secundaria: #242526;
     /* Cor da sidebar e cards - cinza escuro */
     --cor-botao: #3a3b3c;
     /* Cor dos botões - cinza médio */
-    --cor-botao-light: #3a3b3c;
+    --recurso-embreve-removido: #3a3b3c;
     /* Cor dos elementos interativos - mesmo cinza dos botões */
-    --toggle-color: #fff;
+    --recurso-embreve-removido2: #fff;
     /* Cor do switch de tema - branco */
     --cor-texto: #ccc;
     /* Cor do texto geral - cinza claro */
 }
+
 
 body {
     height: 100vh;
@@ -96,7 +38,7 @@ body {
     height: 100%;
     width: 250px;
     padding: 10px 14px;
-    background: var(--cor-tom-claro);
+    background: var(--cor-secundaria);
     transition: var(--tran-05);
     z-index: 100;
 }
@@ -165,7 +107,7 @@ header .image-text .header-text {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    color: var(--cor-tom-claro);
+    color: var(--cor-secundaria);
     font-size: 22px;
     transition: var(--tran-03);
 }
@@ -221,7 +163,7 @@ body.dark .sidebar header .toggle {
 
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text {
-    color: var(--cor-tom-claro)
+    color: var(--cor-secundaria)
 }
 
 body.dark .sidebar li a:hover .icon,
@@ -231,7 +173,7 @@ body.dark .sidebar li a:hover .text {
 
 
 .sidebar .search-box {
-    background: var(--cor-botao-light);
+    background: var(--recurso-embreve-removido);
     border-radius: 6px;
     transition: var(--tran-05);
 }
@@ -244,7 +186,7 @@ body.dark .sidebar li a:hover .text {
     border-radius: 6px;
     font-size: 16px;
     font-weight: 500;
-    background: var(--cor-botao-light);
+    background: var(--recurso-embreve-removido);
     transition: var(--tran-05);
 }
 
@@ -259,7 +201,7 @@ body.dark .sidebar li a:hover .text {
 .menu-bar .mode {
     position: relative;
     border-radius: 6px;
-    background: var(--cor-botao-light);
+    background: var(--recurso-embreve-removido);
 }
 
 .menu-bar .mode .moon-sun {
@@ -296,7 +238,7 @@ body.dark .menu-bar .mode i.bx-moon {
     min-width: 60px;
     cursor: pointer;
     border-radius: 6px;
-    background: var(--cor-botao-light);
+    background: var(--recurso-embreve-removido);
 }
 
 .toggle-switch .switch {
@@ -304,7 +246,7 @@ body.dark .menu-bar .mode i.bx-moon {
     height: 22px;
     width: 44px;
     border-radius: 25px;
-    background: var(--toggle-color);
+    background: var(--recurso-embreve-removido2);
 
 }
 
@@ -317,7 +259,7 @@ body.dark .menu-bar .mode i.bx-moon {
     top: 50%;
     left: 5px;
     transform: translateY(-50%);
-    background: var(--cor-tom-claro);
+    background: var(--cor-secundaria);
     transition: var(--tran-03);
 }
 
@@ -392,7 +334,7 @@ body.dark .switch::before {
 
 /* ESTILO DOS CARDS */
 .card {
-    background: var(--cor-tom-claro);
+    background: var(--cor-secundaria);
     color: var(--cor-texto);
     border-radius: 15px;
     padding: 30px 20px;

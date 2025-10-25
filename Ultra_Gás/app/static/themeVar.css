@@ -1,0 +1,79 @@
+/* ===== VARIÁVEIS DE TEMA ===== */
+:root {
+    /* Cor de fundo principal*/
+    --cor-fundo: #ffffff;
+    /* Cor do texto geral - preto */
+    --cor-texto: #000000;
+    /* Cor do texto dos botões - preto */
+    --cor-botao-texto: #000000;
+    /*Formulário de login e borda do modal card*/
+    --cor-primaria: #bbbbbb;
+    /* Cor de fundo da sidebar, campos de form e cards*/
+    --cor-secundaria: #ffffff;
+    /* Cor dos botões e elementos interativos*/
+    --cor-botao: #bbbbbb;
+
+    /* Remover: Search e Light and Dark Mode */
+    --recurso-embreve-removido: #05021d;
+    /* Remover: Cor do switch de tema - cinza claro */
+    --recurso-embreve-removido2: #f11515;
+
+    /* Transições */
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+
+/* ===== TEMA ROSA ===== */
+.tema-rosa {
+    --cor-fundo: #ffcbcd;
+    --cor-texto: #000000;
+    --cor-botao-texto: #000000;
+    --cor-primaria: #ff7a90;
+    --cor-secundaria: #fae4e5;
+    --cor-botao: #ff7a7a;
+}
+
+/* ===== TEMA AZUL ===== */
+.tema-azul {
+    --cor-fundo: #dae9ff;
+    --cor-texto: #000000;
+    --cor-primaria: #99b3cc;
+    --cor-botao-texto: #000000;
+    --cor-secundaria: #f4f8ff;
+    --cor-botao: #6699ff;
+}
+
+
+/* ===== TEMA CINZA ===== */
+.tema-cinza {
+    --cor-fundo: #ebebeb;
+    --cor-texto: #000000;
+    --cor-primaria: #bbbbbb;
+    --cor-botao-texto: #000000;
+    --cor-secundaria: #ffffff;
+    --cor-botao: #888888;
+}
+
+
+/* ===== TEMA VERDE ===== */
+.tema-verde {
+    --cor-fundo: #d2ffcf;
+    --cor-texto: #000000;
+    --cor-primaria: #6ac86f;
+    --cor-botao-texto: #000000;
+    --cor-secundaria: #e7ffe5;
+    --cor-botao: #34c639;
+}
+
+
+/* ===== TEMA PRETO ===== */
+.tema-preto {
+    --cor-fundo: #1b1b1b;
+    --cor-texto: #ffffff;
+    --cor-primaria: #4b4b4b;
+    --cor-botao-texto: #ffffff;
+    --cor-secundaria: #bbbbbb;
+    --cor-botao: #333333;
+}

@@ -1,59 +1,3 @@
-/* ===== VARIÁVEIS DE TEMA ===== */
-:root {
-    --cor-fundo: #ffffff;
-    --cor-texto: #000000;
-    --cor-botao: #bbbbbb;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #ffffff;
-}
-
-.tema-rosa {
-    --cor-fundo: #ffcbcd;
-    --cor-texto: #000000;
-    --cor-botao: #ff7a7a;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #fae4e5;
-}
-
-/* ===== TEMA AZUL ===== */
-.tema-azul {
-    --cor-fundo: #dae9ff;
-    --cor-texto: #000000;
-    --cor-botao: #99b3cc;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #f4f8ff;
-}
-
-
-/* ===== TEMA CINZA ===== */
-.tema-cinza {
-    --cor-fundo: #ebebeb;
-    --cor-texto: #000000;
-    --cor-botao: #bbbbbb;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #ffffff;
-}
-
-
-/* ===== TEMA VERDE ===== */
-.tema-verde {
-    --cor-fundo: #d2ffcf;
-    --cor-texto: #000000;
-    --cor-botao: #6ac86f;
-    --cor-botao-texto: #000000;
-    --cor-tom-claro: #e7ffe5;
-}
-
-
-/* ===== TEMA PRETO ===== */
-.tema-preto {
-    --cor-fundo: #1b1b1b;
-    --cor-texto: #ffffff;
-    --cor-botao: #4b4b4b;
-    --cor-botao-texto: #ffffff;
-    --cor-tom-claro: #bbbbbb;
-}
-
 /* ===== GERAL ===== */
 html,
 body {
@@ -103,7 +47,7 @@ body {
 
 /* ===== CARD DE LOGIN ===== */
 .login-card {
-    background-color: var(--cor-botao);
+    background-color: var(--cor-primaria);
     border-radius: 20px;
     padding: 30px 40px;
     width: 100%;
@@ -130,7 +74,7 @@ body {
 .login-form input {
     width: 100%;
     padding: 10px;
-    background-color: var(--cor-tom-claro);
+    background-color: var(--cor-secundaria);
     border: none;
     border-radius: 20px;
     font-size: 14px;
@@ -138,7 +82,7 @@ body {
 }
 
 .login-form button {
-    background-color: var(--cor-tom-claro);
+    background-color: var(--cor-secundaria);
     color: var(--cor-botao-texto);
     border: none;
     padding: 10px 20px;
@@ -232,7 +176,7 @@ body {
     transform: translate(-50%, -50%) scale(0.95);
     width: 92%;
     max-width: 720px;
-    background: var(--cor-tom-claro);
+    background: var(--cor-secundaria);
     border-radius: 8px;
     border: 10px solid var(--cor-fundo);
     padding: 22px 24px 26px 24px;
@@ -293,7 +237,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     border: none;
-    background-color: var(--cor-botao);
+    background-color: var(--cor-primaria);
     color: var(--cor-botao-texto);
     transition: none;
     /* remove qualquer animação */
@@ -302,13 +246,13 @@ body {
 
 /* Botão secundário */
 .btn-secondary {
-    background-color: var(--cor-botao);
+    background-color: var(--cor-primaria);
     color: var(--cor-botao-texto);
 }
 
 /* Botão secundário */
 .btn-secondary {
-    background-color: var(--cor-botao);
+    background-color: var(--cor-primaria);
     color: var(--cor-botao-texto);
 }
 
