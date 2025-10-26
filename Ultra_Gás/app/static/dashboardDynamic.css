@@ -99,10 +99,6 @@ header .image-text .header-text {
     transform: translateY(-50%);
 }
 
-/* body.dark .sidebar header .toggle {
-    color: var(--cor-texto);
-} */
-
 .sidebar .menu {
     margin-top: 35px;
 }
@@ -189,112 +185,6 @@ header .image-text .header-text {
     opacity: 1;
 }
 
-/* ======================
-    Conteudo removido
-========================= */
-
-/* body.dark {
-    --cor-fundo: #18191a;
-    --cor-secundaria: #242526;
-    --cor-botao: #3a3b3c;
-    --recurso-embreve-removido: #3a3b3c;
-    --recurso-embreve-removido2: #fff;
-    --cor-texto: #ccc; 
-} */
-
-/* body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
-    color: var(--cor-texto)
-} */
-
-
-/* .sidebar .search-box {
-    background: var(--recurso-embreve-removido);
-    border-radius: 6px;
-    transition: var(--tran-05);
-}
-
-.search-box input {
-    height: 100%;
-    width: 100%;
-    outline: none;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 500;
-    background: var(--recurso-embreve-removido);
-    transition: var(--tran-05);
-} */
-
-
-/* .menu-bar .mode {
-    position: relative;
-    border-radius: 6px;
-    background: var(--recurso-embreve-removido);
-}
-
-.menu-bar .mode .moon-sun {
-    height: 50px;
-    width: 60px;
-    display: flex;
-    align-items: center;
-}
-
-.menu-bar .mode i {
-    position: absolute;
-    transition: var(--tran-03);
-}
-
-.menu-bar .mode i.bx-sun {
-    opacity: 0;
-}
-
-body.dark .menu-bar .mode i.bx-sun {
-    opacity: 1;
-}
-
-body.dark .menu-bar .mode i.bx-moon {
-    opacity: 0;
-}
-
-.menu-bar .mode .toggle-switch {
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-width: 60px;
-    cursor: pointer;
-    border-radius: 6px;
-    background: var(--recurso-embreve-removido);
-}
-
-.toggle-switch .switch {
-    position: relative;
-    height: 22px;
-    width: 44px;
-    border-radius: 25px;
-    background: var(--recurso-embreve-removido2);
-
-}
-
-.switch::before {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background: var(--cor-secundaria);
-    transition: var(--tran-03);
-}
-
-body.dark .switch::before {
-    left: 24px;
-} */
 
 /* =====================
    DASHBOARD PRINCIPAL

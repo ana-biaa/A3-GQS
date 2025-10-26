@@ -230,32 +230,6 @@ body {
 
 /* ===== Botões ===== */
 
-/* Botão padrão seguindo o tema da colega */
-.btn {
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    background-color: var(--cor-primaria);
-    color: var(--cor-botao-texto);
-    transition: none;
-    /* remove qualquer animação */
-}
-
-
-/* Botão secundário */
-.btn-secondary {
-    background-color: var(--cor-primaria);
-    color: var(--cor-botao-texto);
-}
-
-/* Botão secundário */
-.btn-secondary {
-    background-color: var(--cor-primaria);
-    color: var(--cor-botao-texto);
-}
-
 /* ===== MOBILE / RESPONSIVE ===== */
 @media (max-width: 768px) {
     body {
