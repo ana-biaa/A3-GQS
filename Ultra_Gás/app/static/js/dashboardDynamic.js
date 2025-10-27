@@ -8,31 +8,40 @@ window.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('close');
 });
 
-// Variável para guardar a classe anterior do body
-let previousBodyClass = body.className;
+
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
 })
 
-// Seleciona todos os links do menu
+// Seleciona todos os links da sidebar
 const menuLinks = document.querySelectorAll('.menu-links .nav-link a');
 
-// Adiciona evento de clique para cada link
 menuLinks.forEach(link => {
     link.addEventListener('click', event => {
         event.preventDefault(); // impede recarregamento da página
 
-        // Obtém o texto do link e transforma em ID correspondente
-        const nome = link.querySelector('.nav-text').textContent.trim().toLowerCase();
-        const id = nome.replace(' ', ''); // Exemplo: "Relatórios" -> "relatorios"
+        // Captura o texto do link e normaliza (remove acentos e espaços)
+        const nome = link.querySelector('.nav-text').textContent.trim()
+            .normalize("NFD") // separa acentos
+            .replace(/[\u0300-\u036f]/g, "") // remove acentos
+            .toLowerCase()
+            .replace(/\s+/g, ''); // remove todos os espaços
 
-        // Oculta todas as seções de conteúdo
+        console.log('Clicou em:', nome); // <-- aparece no console ao clicar
+
+        // Esconde todas as seções de conteúdo
         document.querySelectorAll('.conteudo').forEach(sec => sec.classList.remove('ativo'));
 
-        // Exibe a seção correspondente, se existir
-        const alvo = document.getElementById(id);
-        if (alvo) alvo.classList.add('ativo');
-        // Fecha a sidebar ao clicar em um botão de navegação
-        sidebar.classList.add('close');
+        // Mostra a seção correspondente (se existir)
+        const alvo = document.getElementById(nome);
+        if (alvo) {
+            alvo.classList.add('ativo');
+            console.log('Mostrando seção:', nome);
+        } else {
+            console.warn('Nenhum elemento encontrado com ID:', nome);
+        }
+
+        // Fecha a sidebar após o clique
+        if (sidebar) sidebar.classList.add('close');
     });
 });
