@@ -185,7 +185,6 @@ header .image-text .header-text {
     opacity: 1;
 }
 
-
 /* =====================
    DASHBOARD PRINCIPAL
 ===================== */
@@ -285,6 +284,148 @@ header .image-text .header-text {
     transition: var(--tran-05);
 }
 
+.estoque-container {
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--cor-texto);
+    margin: 10px 0 20px;
+    text-align: center;
+    /* Centraliza o título horizontalmente */
+}
+
+/* Ajusta a estrutura para duas colunas centralizadas */
+.estoque-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Centraliza verticalmente */
+    gap: 120px;
+    /* Aumenta o espaçamento para 120px */
+}
+
+.cards-column {
+    flex: none;
+    /* Garante que os cards não se expandam */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    /* Alinha os cards à direita dentro da coluna */
+}
+
+.estoque-card {
+    width: 250px;
+    /* Reduz a largura dos cards */
+    min-height: 120px;
+    /* Reduz a altura mínima para consistência */
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    /* Define o card como flex container */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+    text-decoration: none;
+    /* Garante que o sublinhado seja removido */
+}
+
+.estoque-card h3 {
+    margin: 0;
+    /* Remove margens para alinhamento perfeito */
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cor-texto);
+    text-decoration: none;
+    text-align: center;
+}
+
+.status-text {
+    font-size: 0.95rem;
+    color: var(--cor-texto);
+}
+
+.card-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--cor-botao);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chart-column {
+    flex: none;
+    /* Garante que o gráfico não se expanda */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centraliza o gráfico horizontalmente */
+}
+
+.chart-card {
+    /* remover fundo e sombra para deixar o gráfico mais limpo */
+    background: transparent;
+    padding: 6px 8px;
+    /* padding reduzido */
+    border-radius: 6px;
+    box-shadow: none;
+    width: 100%;
+    max-width: 520px;
+    /* limita largura do gráfico para centralizar melhor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-card canvas {
+    max-width: 100%;
+    height: 300px;
+    /* Aumenta ainda mais a altura do gráfico */
+}
+
+/* Adiciona espaçamento entre o título e o gráfico */
+.chart-title {
+    margin-bottom: 20px;
+    /* Aumenta o espaçamento abaixo do título */
+}
+
+.pie-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pie-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+@media (max-width: 900px) {
+    .estoque-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card canvas {
+        height: 200px;
+    }
+}
+
 /* =====================
         Pedidos
 ===================== */
@@ -321,6 +462,60 @@ header .image-text .header-text {
     transition: var(--tran-05);
 }
 
+#financeiro .estoque-card {
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#financeiro .status-icon {
+    font-size: 2rem;
+    color: var(--cor-botao);
+    margin-bottom: 10px;
+}
+
+#financeiro .chart-card {
+    background: transparent;
+    padding: 6px 8px;
+    border-radius: 6px;
+    box-shadow: none;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#financeiro .chart-card canvas {
+    max-width: 100%;
+    height: 220px;
+}
+
+#financeiro .pie-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#financeiro .pie-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#financeiro .legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
 /* =====================
         Relatórios        
 ===================== */
@@ -350,4 +545,45 @@ header .image-text .header-text {
     font-weight: 600;
     color: var(--cor-texto);
     margin-bottom: 40px;
+}
+
+/* Estilo para o card 'Status do estoque' */
+.status-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: var(--cor-secundaria);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para o cabeçalho do card 'Status do estoque' */
+.status-card .status-header {
+    display: flex;
+    align-items: center;
+    /* Alinha verticalmente o ícone e o título */
+    gap: 10px;
+    /* Espaçamento entre o ícone e o título */
+    margin-bottom: 10px;
+    /* Espaçamento abaixo do cabeçalho */
+}
+
+.status-card .status-icon {
+    font-size: 2rem;
+    /* Tamanho do ícone */
+    color: var(--cor-botao);
+}
+
+.status-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    /* Remove margens para alinhamento perfeito */
+}
+
+.status-card .text-nivel {
+    font-size: 1rem;
+    color: var(--cor-texto);
+    text-align: center;
 }

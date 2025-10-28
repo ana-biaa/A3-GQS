@@ -130,8 +130,53 @@
                 </div>
             </div>
             <div id="estoque" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Controle de estoque</h1>
+                <div class="estoque-container">
+                    <h1 class="section-title">Estoque</h1>
+
+                    <div class="estoque-grid">
+                        <!-- Seção de Cards (à esquerda) -->
+                        <div class="cards-column">
+                            <div class="estoque-card status-card">
+                                <div class="status-header">
+                                    <div class="status-icon">
+                                        <i class="bx bx-bar-chart-alt-2"></i>
+                                    </div>
+                                    <h3>Status do estoque:</h3>
+                                </div>
+                                <p class="status-text text-nivel">
+                                    Carregando informações...
+                                </p>
+                            </div>
+
+                            <a class="estoque-card" href="/estoque/registrar">
+                                <h3>Registrar saída/entrada</h3>
+                            </a>
+
+                            <a class="estoque-card" href="/estoque/consultar">
+                                <h3>Consultar produtos disponíveis</h3>
+                            </a>
+
+                            <a class="estoque-card" href="/estoque/cadastrar">
+                                <h3>Cadastrar / Editar produto</h3>
+                            </a>
+                        </div>
+
+                        <!-- Seção de Gráfico (à direita) -->
+                        <div class="chart-column">
+                            <h2 class="chart-title">
+                                Tipo de gás mais vendido
+                            </h2>
+                            <!-- Novo título acima do gráfico -->
+                            <div class="chart-card">
+                                <canvas
+                                    id="estoquePieChart"
+                                    aria-label="Gráfico de distribuição do estoque"
+                                    role="img"
+                                ></canvas>
+                            </div>
+                            <div id="pie-legend" class="pie-legend"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="pedidos" class="conteudo">
@@ -145,8 +190,53 @@
                 </div>
             </div>
             <div id="financeiro" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Financeiro</h1>
+                <div class="estoque-container">
+                    <h1 class="section-title">Financeiro</h1>
+
+                    <div class="estoque-grid">
+                        <!-- Seção de Cards (à esquerda) -->
+                        <div class="cards-column">
+                            <div class="estoque-card">
+                                <div class="status-icon">
+                                    <i class="bx bx-line-chart"></i>
+                                </div>
+                                <h3>Vendas do dia</h3>
+                                <p class="status-text">R$ 1.000,00</p>
+                            </div>
+
+                            <div class="estoque-card">
+                                <h3>Pagamentos</h3>
+                                <p class="status-text">
+                                    ✅ Recebidos: R$ 800,00
+                                </p>
+                                <p class="status-text">
+                                    ❌ Pendentes: R$ 200,00
+                                </p>
+                            </div>
+
+                            <a class="estoque-card" href="/financeiro/recibo">
+                                <h3>Emitir recibo de compra</h3>
+                            </a>
+                        </div>
+
+                        <!-- Seção de Gráfico (à direita) -->
+                        <div class="chart-column">
+                            <h2 class="chart-title">
+                                Formas de pagamento mais usadas
+                            </h2>
+                            <div class="chart-card">
+                                <canvas
+                                    id="financeiroPieChart"
+                                    aria-label="Gráfico de formas de pagamento"
+                                    role="img"
+                                ></canvas>
+                            </div>
+                            <div
+                                id="financeiro-legend"
+                                class="pie-legend"
+                            ></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="relatorios" class="conteudo">
@@ -156,6 +246,7 @@
             </div>
         </section>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="/static/js/dashboardDynamic.js"></script>
     </body>
 </html>
