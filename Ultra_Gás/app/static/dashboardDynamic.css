@@ -181,7 +181,7 @@ header .image-text .header-text {
 }
 
 .conteudo.ativo {
-    display: block;
+    display: flex;
     opacity: 1;
 }
 
@@ -191,7 +191,6 @@ header .image-text .header-text {
 ===================== */
 
 #dashboard {
-    display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -260,4 +259,95 @@ header .image-text .header-text {
     .dashboard-cards {
         grid-template-columns: 1fr;
     }
+}
+
+/* =====================
+        Cliente
+===================== */
+
+#cliente {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+/* =====================
+        Estoque
+===================== */
+
+#estoque {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+/* =====================
+        Pedidos
+===================== */
+
+#pedidos {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+/* =====================
+        Entregas
+===================== */
+
+#entregas {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+/* =====================
+        Financeiro        
+===================== */
+
+#financeiro {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+/* =====================
+        Relatórios        
+===================== */
+
+#relatorios {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--cor-fundo);
+    transition: var(--tran-05);
+}
+
+
+/* =====================
+    Usado para testes       
+===================== */
+
+
+.teste-container {
+    text-align: center;
+    width: 90%;
+    max-width: 1000px;
+}
+
+.teste-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--cor-texto);
+    margin-bottom: 40px;
 }
