@@ -395,6 +395,7 @@ header .image-text .header-text {
 /* Adiciona espaçamento entre o título e o gráfico */
 .chart-title {
     margin-bottom: 20px;
+    color: var(--cor-texto);
     /* Aumenta o espaçamento abaixo do título */
 }
 
@@ -402,6 +403,7 @@ header .image-text .header-text {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    color: var(--cor-texto);
 }
 
 .pie-legend .legend-item {
