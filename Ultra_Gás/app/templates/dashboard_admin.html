@@ -75,7 +75,7 @@
                         </li>
                         <li class="nav-link">
                             <a href="#">
-                                <i class="bx bx-home-alt icon"></i>
+                                <i class="bx bx-line-chart icon"></i>
                                 <span class="text nav-text">Relatórios</span>
                             </a>
                         </li>
@@ -125,8 +125,42 @@
                 </div>
             </div>
             <div id="cliente" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Cliente</h1>
+                <div class="entrega-container">
+                    <h1 class="section-title">Clientes</h1>
+
+                    <div class="cliente-buttons">
+                        <button id="btn-cadastrar-cliente" class="action-btn">
+                            <i class="bx bx-user-plus"></i>
+                            <span>Cadastrar Cliente</span>
+                        </button>
+
+                        <button id="btn-buscar-cliente" class="action-btn">
+                            <i class="bx bx-search"></i>
+                            <span>Buscar Cliente</span>
+                        </button>
+                    </div>
+
+                    <div class="cliente-lista-wrap">
+                        <ul id="lista-clientes" class="cliente-lista">
+                            Carregando...
+                        </ul>
+                        <div class="scroll-controls" aria-hidden="false">
+                            <button
+                                id="scroll-up-clientes"
+                                class="small-scroll"
+                                aria-label="Rolar clientes para cima"
+                            >
+                                ▲
+                            </button>
+                            <button
+                                id="scroll-down-clientes"
+                                class="small-scroll"
+                                aria-label="Rolar clientes para baixo"
+                            >
+                                ▼
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="estoque" class="conteudo">
@@ -248,5 +282,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="/static/js/dashboardDynamic.js"></script>
+        <script src="/static/js/clientes.js"></script>
     </body>
 </html>

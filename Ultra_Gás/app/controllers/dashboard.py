@@ -85,3 +85,44 @@ def get_historico_entregas():
         {"endereco": "Avenida das Nações, 120", "destinatario": "Isabela"}
     ]
     return jsonify(historico)
+
+
+@dashboard_bp.route('/clientes', methods=['GET'])
+def get_clientes():
+    """Rota que retorna uma lista de clientes (dados simulados).
+
+    Cada item contém o campo: endereco
+    """
+    clientes = [
+        {"endereco": "Rua das Flores, 123"},
+        {"endereco": "Avenida Paulista, 1000"},
+        {"endereco": "Rua das Acácias, 45"},
+        {"endereco": "Praça Central, 10"},
+        {"endereco": "Avenida Brasil, 1575"},
+        {"endereco": "Rua das Flores, 88"},
+        {"endereco": "Travessa das Palmeiras, 12"},
+        {"endereco": "Rua dos Pinheiros, 321"},
+        {"endereco": "Avenida Atlântica, 500"},
+        {"endereco": "Rua São João, 245"},
+        {"endereco": "Rua Bela Vista, 87"},
+        {"endereco": "Avenida Rio Branco, 900"},
+        {"endereco": "Rua Dom Pedro II, 56"},
+        {"endereco": "Travessa das Margaridas, 33"},
+        {"endereco": "Rua XV de Novembro, 712"},
+        {"endereco": "Avenida Independência, 1020"},
+        {"endereco": "Rua das Oliveiras, 402"},
+        {"endereco": "Praça da Liberdade, 15"},
+        {"endereco": "Rua Coronel Franco, 276"},
+        {"endereco": "Avenida do Contorno, 1500"},
+        {"endereco": "Rua Santa Clara, 640"},
+        {"endereco": "Alameda dos Ipês, 78"},
+        {"endereco": "Rua Professor Lima, 99"},
+        {"endereco": "Rua do Comércio, 312"},
+        {"endereco": "Avenida Europa, 1200"},
+        {"endereco": "Rua General Osório, 455"},
+        {"endereco": "Rua Monte Alegre, 800"},
+        {"endereco": "Avenida das Américas, 2055"},
+        {"endereco": "Rua Tiradentes, 507"},
+        {"endereco": "Travessa dos Lírios, 41"}
+    ]
+    return jsonify(clientes)

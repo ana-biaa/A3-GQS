@@ -798,6 +798,124 @@ header .image-text .header-text {
     justify-content: center;
 }
 
+/* =====================
+   Cliente (admin) - lista e botões
+===================== */
+
+.cliente-buttons {
+    width: 90%;
+    max-width: 900px;
+    margin: 10px auto 20px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Botões de ação (Cadastrar / Buscar) - aparência moderna */
+
+.cliente-buttons .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    font-weight: 700;
+    color: #111;
+    /* texto preto */
+    background: #ffffff;
+    /* fundo branco */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.cliente-buttons .action-btn i {
+    font-size: 1.2rem;
+    color: #111;
+    /* ícone preto */
+}
+
+.cliente-buttons .action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.10);
+    background: #fafafa;
+    /* leve escurecimento no hover */
+}
+
+.cliente-buttons .action-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Em telas pequenas, botões empilham */
+@media (max-width: 560px) {
+    .cliente-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cliente-lista-wrap {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.cliente-lista {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    background: transparent;
+    border-radius: 8px;
+    max-height: calc(60vh - 80px);
+    /* reduzir largura interna para deslocar a barra um pouco à direita */
+    width: calc(100% - 12px);
+    overflow-y: auto;
+    padding: 12px 24px 12px 16px;
+    /* mais espaço à direita */
+    /* correspondência visual com .entrega-lista: scrollbar sutil visível */
+    scrollbar-width: thin;
+    /* firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+    /* firefox: thumb, track */
+}
+
+.cliente-lista li {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    color: var(--cor-texto);
+}
+
+.cliente-lista li:last-child {
+    border-bottom: none;
+}
+
+/* WebKit: tornar scrollbar transparente para a lista de clientes */
+.cliente-lista::-webkit-scrollbar {
+    width: 10px;
+}
+
+.cliente-lista::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.cliente-lista::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+}
+
+@media (max-width: 800px) {
+    .cliente-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cliente-lista {
+        max-height: calc(50vh - 80px);
+    }
+}
+
 .card .card-actions-inline {
     margin-top: 10px;
     display: flex;
