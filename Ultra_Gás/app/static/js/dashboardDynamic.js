@@ -179,41 +179,55 @@ function initFinanceiro() {
     // Verifica se os elementos necessários existem na página
     if (!canvas || !legendEl) return;
 
-    // Dados simulados para o gráfico de financeiro
-    const data = {
-        labels: ['A prazo', 'Pix', 'Cartão', 'Dinheiro'], // Tipos de pagamento
-        datasets: [{
-            data: [40, 25, 20, 15], // Valores correspondentes aos tipos de pagamento
-            backgroundColor: ['#4dc9f6', '#f67019', '#f53794', '#537bc4'], // Cores para cada tipo
-        }],
-    };
+    // Tenta buscar dados do endpoint /api/financeiro; se falhar usa mock local
+    fetch('/api/financeiro')
+        .then(resp => {
+            if (!resp.ok) throw new Error('API não disponível');
+            return resp.json();
+        })
+        .then(data => {
+            renderFinanceiroChart(data, canvas, legendEl);
+        })
+        .catch(err => {
+            // Fallback: dados mock (usado quando a rota não responde)
+            const mock = {
+                labels: ['A prazo', 'Pix', 'Cartão', 'Dinheiro'],
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: ['#4dc9f6', '#f67019', '#f53794', '#537bc4']
+                }]
+            };
+            renderFinanceiroChart(mock, canvas, legendEl);
+        });
+}
 
-    // Inicializa o gráfico usando Chart.js
+function renderFinanceiroChart(data, canvas, legendEl) {
+    if (typeof Chart === 'undefined') {
+        legendEl.innerHTML = '<p>Chart.js não disponível — instalar/ligar CDN.</p>';
+        return;
+    }
+
     const ctx = canvas.getContext('2d');
+    // Destrói qualquer instância antiga se necessário (simples approach: replace canvas)
+    try { ctx.clearRect(0, 0, canvas.width, canvas.height); } catch (e) { /* ignore */ }
+
     new Chart(ctx, {
-        type: 'pie', // Define o tipo de gráfico como pizza
+        type: 'pie',
         data: data,
         options: {
-            responsive: true, // Torna o gráfico responsivo
-            animation: {
-                duration: 500, // Define a duração da animação para 500ms
-            },
-            plugins: {
-                legend: {
-                    display: false, // Esconde a legenda padrão gerada pelo Chart.js
-                },
-            },
-        },
+            responsive: true,
+            animation: { duration: 500 },
+            plugins: { legend: { display: false } }
+        }
     });
 
-    // Gera uma legenda personalizada abaixo do gráfico
-    const legendItems = data.labels.map((label, index) => {
-        return `<div class="legend-item">
-                    <span class="legend-color" style="background-color: ${data.datasets[0].backgroundColor[index]}"></span>
-                    ${label}
-                </div>`;
+    // Monta legenda personalizada
+    const labels = data.labels || [];
+    const bg = (data.datasets && data.datasets[0] && data.datasets[0].backgroundColor) || [];
+    const legendItems = labels.map((label, index) => {
+        return `<div class="legend-item"><span class="legend-color" style="background:${bg[index] || '#ccc'}"></span> ${label}</div>`;
     });
-    legendEl.innerHTML = legendItems.join(''); // Insere os itens da legenda no elemento correspondente
+    legendEl.innerHTML = legendItems.join('');
 }
 
 // Adiciona um listener para inicializar o gráfico quando a página for carregada

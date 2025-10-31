@@ -14,8 +14,10 @@ def create_app():
         # registrar blueprints
         from .controllers.auth import auth_bp
         from .controllers.dashboard import dashboard_bp
+        from .controllers.api import api_bp
 
         app.register_blueprint(auth_bp)
         app.register_blueprint(dashboard_bp)
+        app.register_blueprint(api_bp)
 
         return app
