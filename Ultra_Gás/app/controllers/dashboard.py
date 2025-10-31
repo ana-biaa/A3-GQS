@@ -16,3 +16,13 @@ def show_dashboard():
         return render_template('dashboard_admin.html', user_name=user_name)
     else:
         return render_template('dashboard.html', user_name=user_name)
+
+
+@dashboard_bp.route('/entrega-atual', methods=['GET'])
+def get_entrega_atual():
+    # Simulated data for demonstration purposes
+    entrega_data = {
+        "endereco": "Rua das Flores, 123",
+        "destinatario": "João"
+    }
+    return entrega_data

@@ -589,3 +589,122 @@ header .image-text .header-text {
     color: var(--cor-texto);
     text-align: center;
 }
+
+/* =====================
+   Entrega Atual
+===================== */
+/* Ensure 'entrega-card' is vertically centered and title sits above the card */
+#entregaatual {
+    flex-direction: column;
+    /* stack title above the card */
+    justify-content: center;
+    /* center vertically */
+    align-items: center;
+    /* center horizontally */
+    height: 100vh;
+    /* Full viewport height to center vertically */
+}
+
+/* Add spacing between the title and the card */
+#entregaatual .section-title {
+    margin-bottom: 20px;
+    /* Space below the title */
+    text-align: center;
+    /* Center the title text */
+}
+
+.entrega-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 117%;
+    /* 30% larger than the original 90% */
+    max-width: 520px;
+    /* Adjusted proportionally */
+    height: auto;
+    margin: auto;
+    padding: 26px;
+    /* Increased padding for larger size */
+    background: var(--cor-secundaria);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.card-header i {
+    font-size: 2.5rem;
+    color: var(--cor-botao);
+    margin-bottom: 10px;
+}
+
+.card-info p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: var(--cor-texto);
+}
+
+/* Align the card info (endereço, destinatário) to the left */
+.card-header .card-info {
+    width: 100%;
+    text-align: left;
+    padding-left: 6px;
+    /* small left padding so text doesn't touch the edge */
+}
+
+.card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.card-actions .btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* align inner content to the left */
+    gap: 8px;
+    padding: 12px 16px;
+    /* give horizontal padding so text doesn't touch edge */
+    width: 100%;
+    /* make buttons full width of the card-actions container */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-secundaria);
+    background: var(--cor-botao);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: none;
+    text-align: left;
+    /* ensure multi-line text aligns left */
+}
+
+/* Ensure icons inside buttons are visible and styled */
+.btn-icon {
+    font-size: 1.2rem;
+    /* Adjust icon size */
+    color: var(--cor-secundaria);
+    /* Match button text color */
+    margin-right: 8px;
+    /* Add spacing between icon and text */
+}
+
+/* Style the container for title and card */
+.entrega-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    /* Space between title and card */
+    width: 100%;
+}

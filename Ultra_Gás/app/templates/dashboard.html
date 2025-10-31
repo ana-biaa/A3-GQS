@@ -1,25 +1,158 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Dashboard</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/static/themeVar.css" />
+        <link rel="stylesheet" href="/static/dashboardDynamic.css" />
+
         <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
+            href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
         />
-        <link rel="stylesheet" href="/static/style.css" />
+
+        <title>Dashboard Admin</title>
     </head>
     <body class="tema-rosa">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Painel do Usuário</h1>
-                <div>
-                    <span class="me-3">{{ user_name }}</span>
-                    <a href="/logout" class="btn btn-secondary">Sair</a>
+        <nav class="sidebar close">
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img
+                            src="/static/img/logo-placeholder.png"
+                            alt="logo"
+                        />
+                    </span>
+
+                    <div class="text header-text">
+                        <span class="name">Ultra GÁS</span>
+                        <span class="profession">Distribuidora</span>
+                    </div>
+                </div>
+
+                <i class="bx bx-chevron-right toggle"></i>
+            </header>
+
+            <div class="menu-bar">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class="bx bx-home-alt icon"></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class="bx bxs-truck icon"></i>
+                                <span class="text nav-text">Entrega Atual</span>
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class="bx bx-cart icon"></i>
+                                <span class="text nav-text"
+                                    >Entregas Pendentes</span
+                                >
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class="bx bx-history icon"></i>
+                                <span class="text nav-text"
+                                    >Histórico de Entregas</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bottom-content">
+                    <li class="">
+                        <a href="/logout">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
                 </div>
             </div>
-            <p>Bem-vindo ao painel do usuário.</p>
-        </div>
+        </nav>
+
+        <section class="home">
+            <!-- CSS Estilo da primeira aba do admin dashboard -->
+            <div id="dashboard" class="conteudo ativo">
+                <div class="dashboard-container">
+                    <h1 class="welcome-text">Bem-vindo, Usuário!</h1>
+
+                    <div class="dashboard-cards">
+                        <div class="card">
+                            <i class="bx bxs-truck icon"></i>
+                            <h2>Entrega Atual</h2>
+                        </div>
+
+                        <div class="card">
+                            <i class="bx bx-cart icon"></i>
+                            <h2>Entregas Pendentes</h2>
+                            <span class="number">0</span>
+                        </div>
+
+                        <div class="card">
+                            <i class="bx bx-x-circle icon"></i>
+                            <h2>Relatar algum problema</h2>
+                        </div>
+
+                        <div class="card">
+                            <i class="bx bx-check-circle icon"></i>
+                            <h2>Entregas Concluídas</h2>
+                            <span class="number">4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Estilo da segunda aba do admin dashboard -->
+            <div id="entregaatual" class="conteudo">
+                <div class="entrega-container">
+                    <!-- New container for title and card -->
+                    <h1 class="section-title">Entrega Atual</h1>
+                    <div class="entrega-card">
+                        <div class="card-header">
+                            <i class="bx bxs-truck"></i>
+                            <div class="card-info">
+                                <p class="endereco">
+                                    Endereço:
+                                    <span id="endereco-dinamico"
+                                        >Carregando...</span
+                                    >
+                                </p>
+                                <p class="destinatario">
+                                    Destinatário:
+                                    <span id="nome-destinatario"
+                                        >Carregando...</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn confirmar-entrega">
+                                <i class="bx bx-check-circle btn-icon"></i>
+                                Confirmar Entrega
+                            </button>
+                            <button class="btn consultar-detalhes">
+                                <i class="bx bx-check-circle btn-icon"></i>
+                                Consultar Detalhes do Pedido
+                            </button>
+                            <button class="btn relatar-problema">
+                                <i class="bx bx-check-circle btn-icon"></i>
+                                Relatar Problema
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="/static/js/dashboardDynamic.js"></script>
+        <script src="/static/js/entregaAtual.js"></script>
     </body>
 </html>
