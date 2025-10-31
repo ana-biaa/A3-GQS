@@ -708,3 +708,160 @@ header .image-text .header-text {
     /* Space between title and card */
     width: 100%;
 }
+
+/* =====================
+   Entregas Pendentes (estilização específica)
+===================== */
+
+#entregapendentes {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 40px 0;
+    min-height: calc(100vh - 80px);
+    background: var(--cor-fundo);
+}
+
+
+.entrega-lista-wrap {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.entrega-lista {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* uma coluna */
+    gap: 16px;
+    align-items: stretch;
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    padding-right: 8px;
+    /* espaço para scrollbar */
+}
+
+/* Scrollbar visual (Webkit) */
+.entrega-lista::-webkit-scrollbar {
+    width: 10px;
+}
+
+.entrega-lista::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.entrega-lista::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+}
+
+/* Ajustes visuais para os cards dentro de entregas pendentes */
+#entregapendentes .card {
+    align-items: flex-start;
+    padding: 18px;
+    display: flex;
+    gap: 12px;
+    min-height: 110px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+#entregapendentes .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+#entregapendentes .card .icon {
+    font-size: 2.2rem;
+    min-width: 48px;
+    color: var(--cor-botao);
+    margin: 0;
+}
+
+#entregapendentes .card>h2 {
+    font-size: 1.05rem;
+    margin: 0 0 6px 0;
+    color: var(--cor-texto);
+}
+
+#entregapendentes .card>p {
+    margin: 0;
+    color: var(--cor-texto);
+    opacity: 0.95;
+    font-size: 0.95rem;
+}
+
+.entrega-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card .card-actions-inline {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.card .small-btn {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    background: var(--cor-botao);
+    color: var(--cor-secundaria);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* Controles de scroll (botões) */
+.scroll-controls {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+}
+
+.small-scroll {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--cor-texto);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.small-scroll:hover {
+    background: rgba(0, 0, 0, 0.10);
+}
+
+/* Responsividade: 2 colunas em telas médias, 1 coluna em telas pequenas */
+@media (max-width: 1000px) {
+    #entregapendentes .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #entregapendentes .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    #entregapendentes .card {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .card .card-actions-inline {
+        flex-wrap: wrap;
+    }
+}
