@@ -126,3 +126,40 @@ def get_clientes():
         {"endereco": "Travessa dos Lírios, 41"}
     ]
     return jsonify(clientes)
+
+
+@dashboard_bp.route('/cards', methods=['GET'])
+def get_dashboard_cards():
+    """Rota que retorna os valores exibidos nos cartões da seção principal (dashboard-cards).
+
+    Campos retornados (simulados):
+      - pedidos_pendentes: número
+      - vendas_do_dia: número
+      - entregadores_em_rota: número
+      - status_estoque_percent: número (percentual)
+    """
+    data = {
+        "pedidos_pendentes_num": 24,
+        "vendas_do_dia_num": 57,
+        "entregadores_em_rota_num": 8,
+        "status_estoque_percent_num": 92
+    }
+    return jsonify(data)
+
+
+@dashboard_bp.route('/estoque-cards', methods=['GET'])
+def get_estoque_cards():
+    """Rota que retorna os valores exibidos nos cartões da seção Estoque/Financeiro (simulados).
+
+    Campos retornados (simulados):
+      - vendas_do_dia: string (R$ ...)
+      - pagamentos: { recebidos: string (R$ ...), pendentes: string (R$ ...) }
+    """
+    data = {
+        "vendas_do_dia_num": 1000,
+        "pagamentos": {
+            "recebidos_num": 800,
+            "pendentes_num": 200
+        }
+    }
+    return jsonify(data)

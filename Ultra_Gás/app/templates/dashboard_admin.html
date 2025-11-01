@@ -101,25 +101,31 @@
                         <div class="card">
                             <i class="bx bx-time-five icon"></i>
                             <h2>Pedidos pendentes</h2>
-                            <span class="number">24</span>
+                            <span id="pedidosPendentesNumber" class="number"
+                                >24</span
+                            >
                         </div>
 
                         <div class="card">
                             <i class="bx bx-line-chart icon"></i>
                             <h2>Vendas do dia</h2>
-                            <span class="number">57</span>
+                            <span id="vendasDiaNumber" class="number">57</span>
                         </div>
 
                         <div class="card">
                             <i class="bx bx-run icon"></i>
                             <h2>Entregadores em rota</h2>
-                            <span class="number">8</span>
+                            <span id="entregadoresRotaNumber" class="number"
+                                >8</span
+                            >
                         </div>
 
                         <div class="card">
                             <i class="bx bx-store icon"></i>
                             <h2>Status de estoque</h2>
-                            <span class="number">92%</span>
+                            <span id="statusEstoqueNumber" class="number"
+                                >92%</span
+                            >
                         </div>
                     </div>
                 </div>
@@ -177,7 +183,10 @@
                                     </div>
                                     <h3>Status do estoque:</h3>
                                 </div>
-                                <p class="status-text text-nivel">
+                                <p
+                                    id="statusEstoquePercent"
+                                    class="status-text text-nivel"
+                                >
                                     Carregando informações...
                                 </p>
                             </div>
@@ -235,15 +244,20 @@
                                     <i class="bx bx-line-chart"></i>
                                 </div>
                                 <h3>Vendas do dia</h3>
-                                <p class="status-text">R$ 1.000,00</p>
+                                <p
+                                    id="vendasDoDiaFinanceiro"
+                                    class="status-text"
+                                >
+                                    R$ 1.000,00
+                                </p>
                             </div>
 
                             <div class="estoque-card">
                                 <h3>Pagamentos</h3>
-                                <p class="status-text">
+                                <p id="pagamentosRecebidos" class="status-text">
                                     ✅ Recebidos: R$ 800,00
                                 </p>
-                                <p class="status-text">
+                                <p id="pagamentosPendentes" class="status-text">
                                     ❌ Pendentes: R$ 200,00
                                 </p>
                             </div>

@@ -274,6 +274,68 @@ function renderFinanceiroChart(data, canvas, legendEl) {
     });
 }
 
+/* -------------------------
+   Atualiza cards do dashboard
+   ------------------------- */
+function fetchAndApplyDashboardCards() {
+    console.log('[cards] buscando /dashboard/cards');
+    return fetch('/dashboard/cards')
+        .then(resp => {
+            if (!resp.ok) throw new Error('API /dashboard/cards indisponível');
+            return resp.json();
+        })
+        .then(data => {
+            try {
+                const pedidosEl = document.getElementById('pedidosPendentesNumber');
+                const vendasEl = document.getElementById('vendasDiaNumber');
+                const entregEl = document.getElementById('entregadoresRotaNumber');
+                const estoqueEl = document.getElementById('statusEstoqueNumber');
+
+                if (pedidosEl) pedidosEl.textContent = formatIntegerBR(data.pedidos_pendentes_num || data.pedidos_pendentes || 0);
+                if (vendasEl) vendasEl.textContent = formatIntegerBR(data.vendas_do_dia_num || data.vendas_do_dia || 0);
+                if (entregEl) entregEl.textContent = formatIntegerBR(data.entregadores_em_rota_num || data.entregadores_em_rota || 0);
+                if (estoqueEl) {
+                    const pct = (data.status_estoque_percent_num != null) ? Number(data.status_estoque_percent_num) : (data.status_estoque_percent || 0);
+                    estoqueEl.textContent = `${formatIntegerBR(pct)}%`;
+                }
+            } catch (e) {
+                console.warn('[cards] erro ao aplicar dados', e);
+            }
+        })
+        .catch(err => {
+            console.warn('[cards] falha ao buscar /dashboard/cards', err);
+        });
+}
+
+function fetchAndApplyEstoqueCards() {
+    console.log('[cards] buscando /dashboard/estoque-cards');
+    return fetch('/dashboard/estoque-cards')
+        .then(resp => {
+            if (!resp.ok) throw new Error('API /dashboard/estoque-cards indisponível');
+            return resp.json();
+        })
+        .then(data => {
+            try {
+                const vendasEl = document.getElementById('vendasDoDiaFinanceiro');
+                const recebEl = document.getElementById('pagamentosRecebidos');
+                const pendEl = document.getElementById('pagamentosPendentes');
+                const statusEl = document.getElementById('statusEstoquePercent');
+
+                if (vendasEl) vendasEl.textContent = formatCurrencyBRL(data.vendas_do_dia_num || data.vendas_do_dia || 0);
+                if (data.pagamentos) {
+                    if (recebEl) recebEl.textContent = '✅ Recebidos: ' + formatCurrencyBRL(data.pagamentos.recebidos_num || data.pagamentos.recebidos || 0);
+                    if (pendEl) pendEl.textContent = '❌ Pendentes: ' + formatCurrencyBRL(data.pagamentos.pendentes_num || data.pagamentos.pendentes || 0);
+                }
+                if (statusEl && (data.status_estoque_percent_num != null)) statusEl.textContent = `${formatIntegerBR(data.status_estoque_percent_num)}%`;
+            } catch (e) {
+                console.warn('[estoque-cards] erro ao aplicar dados', e);
+            }
+        })
+        .catch(err => {
+            console.warn('[estoque-cards] falha ao buscar /dashboard/estoque-cards', err);
+        });
+}
+
 // --- Polling manager ---
 const _pollers = {};
 
@@ -374,4 +436,27 @@ window.addEventListener('DOMContentLoaded', () => {
     if (financeiroSection && financeiroSection.classList.contains('ativo')) {
         startPolling('financeiro', initFinanceiro, 60000);
     }
+    // Inicia atualização dos cards no carregamento e mantém polling a cada 60s
+    fetchAndApplyDashboardCards();
+    fetchAndApplyEstoqueCards();
+    startPolling('dashboardCards', fetchAndApplyDashboardCards, 60000);
+    startPolling('estoqueCards', fetchAndApplyEstoqueCards, 60000);
 });
+
+// Helpers de formatação
+function formatIntegerBR(n) {
+    try {
+        return (Number(n) || 0).toLocaleString('pt-BR');
+    } catch (e) {
+        return String(n);
+    }
+}
+
+function formatCurrencyBRL(n) {
+    try {
+        const num = Number(n) || 0;
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(num);
+    } catch (e) {
+        return String(n);
+    }
+}
