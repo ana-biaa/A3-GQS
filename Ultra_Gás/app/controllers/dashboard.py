@@ -1,4 +1,12 @@
 from flask import Blueprint, render_template, session, redirect, url_for, jsonify
+from app import db
+from app.models.estoque import Estoque
+
+# Nota: o limite máximo do estoque (capacidade) está definido em
+# `app/models/estoque.py` como DEFAULT_CAPACITY (atualmente 250).
+# A constraint no banco (ck_estoque_total_max) também impõe que a soma dos
+# campos p45+p20+p13+p8+p5+agua não ultrapasse esse limite. Se quiser alterar
+# a capacidade, atualize DEFAULT_CAPACITY e ajuste a constraint no modelo/banco.
 
 
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
@@ -138,11 +146,21 @@ def get_dashboard_cards():
       - entregadores_em_rota: número
       - status_estoque_percent: número (percentual)
     """
+    # Tenta calcular o status do estoque a partir do registro no DB
+    status_percent = 0
+    try:
+        estoque = Estoque.query.first()
+        if estoque:
+            status_percent = estoque.percent()
+    except Exception:
+        # se algo falhar, manter 0 e não bloquear a rota
+        status_percent = 0
+
     data = {
         "pedidos_pendentes_num": 24,
         "vendas_do_dia_num": 57,
         "entregadores_em_rota_num": 8,
-        "status_estoque_percent_num": 92
+        "status_estoque_percent_num": int(status_percent)
     }
     return jsonify(data)
 

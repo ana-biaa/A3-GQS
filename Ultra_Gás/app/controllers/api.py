@@ -14,10 +14,28 @@ def api_estoque():
       "pie": { "p45": 10, "p20": 5, ... }
     }
     """
+    # Tenta buscar dados reais do banco
+    try:
+        # Import dentro do bloco para evitar problemas de import circular na inicialização
+        # e para só tentar acessar o DB quando este endpoint for chamado.
+        from app.models.estoque import Estoque, DEFAULT_CAPACITY
+        estoque = Estoque.query.first()
+        if estoque:
+            # Usa DEFAULT_CAPACITY (definido em app/models/estoque.py) para compor a mensagem.
+            data = {
+                "summary": {"statusText": f"Estoque: {estoque.total()} / {DEFAULT_CAPACITY} itens ({estoque.percent(DEFAULT_CAPACITY)}%)"},
+                "pie": estoque.to_pie()
+            }
+            return jsonify(data)
+    except Exception:
+        # se houver qualquer problema com o DB, cai no mock abaixo
+        pass
+
+    # Fallback mock
     data = {
         "summary": {"statusText": "Mock: estoque equilibrado — itens com baixa quantidade: 3"},
         "pie": {
-            "p45": 40,
+            "p45": 20,
             "p20": 20,
             "p13": 13,
             "p8": 8,
