@@ -52,6 +52,26 @@ def api_financeiro():
 
     Estrutura retornada compatível com Chart.js (labels + datasets).
     """
+    # Tenta usar dados reais do banco (tabela metodos_pagamento)
+    try:
+        from app.models.metodosPagamento import MetodosPagamento
+        mp = MetodosPagamento.query.first()
+        if mp:
+            data = {
+                "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
+                "datasets": [
+                    {
+                        "data": mp.as_list(),
+                        "backgroundColor": ["#4dc9f6", "#f67019", "#f53794", "#537bc4"]
+                    }
+                ]
+            }
+            return jsonify(data)
+    except Exception:
+        # se qualquer erro ao acessar o DB, cai no mock
+        pass
+
+    # Fallback mock (caso DB não esteja disponível)
     data = {
         "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
         "datasets": [
