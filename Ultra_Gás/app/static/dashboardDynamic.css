@@ -447,6 +447,198 @@ header .image-text .header-text {
 }
 
 /* =====================
+        Pedidos (UI)
+===================== */
+
+.pedidos-container {
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.identificacao-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: var(--cor-texto);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input[type="text"] {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    color: #111;
+}
+
+.pedido-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+.sub-title {
+    color: var(--cor-texto);
+    font-size: 1.3rem;
+    margin: 8px 0 12px;
+}
+
+/* Produtos */
+.produtos-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.produto-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 12px;
+}
+
+.icon-square {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--cor-botao);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-square i {
+    color: var(--cor-secundaria);
+    font-size: 1.4rem;
+}
+
+.produto-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.produto-nome {
+    color: #111;
+    font-weight: 700;
+}
+
+.qty-controls {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-qty {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: var(--cor-botao);
+    color: var(--cor-secundaria);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.qty {
+    min-width: 22px;
+    text-align: center;
+    color: #111;
+    font-weight: 700;
+}
+
+/* Pagamentos */
+.pagamentos-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.pagamento-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    /* ícone | info | check */
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+}
+
+.pagamento-card input[type="radio"] {
+    display: none;
+    /* esconder nativo */
+}
+
+.pagamento-info .pagamento-nome {
+    color: #111;
+    font-weight: 700;
+}
+
+.checkmark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0a0;
+    opacity: 0.25;
+    /* só destaca quando checado */
+    transition: opacity 0.12s ease;
+}
+
+.pagamento-card input:checked~.checkmark {
+    opacity: 1;
+    background: rgba(0, 128, 0, 0.1);
+}
+
+.submit-wrap {
+    margin-top: 18px;
+    display: block;
+}
+
+.btn-submit {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--cor-botao);
+    color: var(--cor-secundaria);
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    /* ocupar toda a largura da coluna (igual aos cards) */
+}
+
+@media (max-width: 900px) {
+    .identificacao-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pedido-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================
         Entregas
 ===================== */
 
@@ -523,19 +715,6 @@ header .image-text .header-text {
     height: 14px;
     border-radius: 3px;
 }
-
-/* =====================
-        Relatórios        
-===================== */
-
-#relatorios {
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    background: var(--cor-fundo);
-    transition: var(--tran-05);
-}
-
 
 /* =====================
     Usado para testes       

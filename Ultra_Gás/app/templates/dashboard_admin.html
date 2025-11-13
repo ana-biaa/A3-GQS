@@ -73,12 +73,6 @@
                                 <span class="text nav-text">Financeiro</span>
                             </a>
                         </li>
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class="bx bx-line-chart icon"></i>
-                                <span class="text nav-text">Relatórios</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <div class="bottom-content">
@@ -223,8 +217,328 @@
                 </div>
             </div>
             <div id="pedidos" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Gestão de pedidos</h1>
+                <div class="pedidos-container">
+                    <h1 class="section-title">Formulário de Pedido</h1>
+
+                    <form id="pedidoForm">
+                        <!-- Campos de Identificação -->
+                        <div class="identificacao-grid">
+                            <div class="form-group">
+                                <label for="enderecoInput">Endereço</label>
+                                <input
+                                    type="text"
+                                    id="enderecoInput"
+                                    name="endereco"
+                                    placeholder="Rua, número, bairro..."
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="clienteInput"
+                                    >Nome do Cliente</label
+                                >
+                                <input
+                                    type="text"
+                                    id="clienteInput"
+                                    name="cliente"
+                                    placeholder="Nome completo"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Layout principal: duas colunas -->
+                        <div class="pedido-main-grid">
+                            <!-- Coluna 1 — Produtos -->
+                            <div class="col-produtos">
+                                <h2 class="sub-title">🛍️ Produtos</h2>
+                                <div class="produtos-list">
+                                    <div class="produto-card" data-produto="p5">
+                                        <div class="icon-square">
+                                            <i class="bx bx-cylinder"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >P05</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-p5"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="produto-card" data-produto="p8">
+                                        <div class="icon-square">
+                                            <i class="bx bx-cylinder"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >P08</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-p8"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="produto-card"
+                                        data-produto="p13"
+                                    >
+                                        <div class="icon-square">
+                                            <i class="bx bx-cylinder"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >P13</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-p13"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="produto-card"
+                                        data-produto="p20"
+                                    >
+                                        <div class="icon-square">
+                                            <i class="bx bx-cylinder"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >P20</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-p20"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="produto-card"
+                                        data-produto="p45"
+                                    >
+                                        <div class="icon-square">
+                                            <i class="bx bx-cylinder"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >P45</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-p45"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="produto-card"
+                                        data-produto="agua"
+                                    >
+                                        <div class="icon-square">
+                                            <i class="bx bx-water"></i>
+                                        </div>
+                                        <div class="produto-info">
+                                            <span class="produto-nome"
+                                                >ÁGUA</span
+                                            >
+                                            <div class="qty-controls">
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="decrement"
+                                                >
+                                                    −
+                                                </button>
+                                                <span class="qty" id="qty-agua"
+                                                    >0</span
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn-qty"
+                                                    data-action="increment"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Coluna 2 — Formas de Pagamento -->
+                            <div class="col-pagamento">
+                                <h2 class="sub-title">
+                                    💳 Formas de Pagamento
+                                </h2>
+                                <div class="pagamentos-list">
+                                    <label class="pagamento-card">
+                                        <input
+                                            type="radio"
+                                            name="pagamento"
+                                            value="dinheiro"
+                                        />
+                                        <div class="icon-square">
+                                            <i class="bx bx-money"></i>
+                                        </div>
+                                        <div class="pagamento-info">
+                                            <span class="pagamento-nome"
+                                                >Dinheiro</span
+                                            >
+                                        </div>
+                                        <span class="checkmark"
+                                            ><i class="bx bx-check"></i
+                                        ></span>
+                                    </label>
+
+                                    <label class="pagamento-card">
+                                        <input
+                                            type="radio"
+                                            name="pagamento"
+                                            value="cartao"
+                                        />
+                                        <div class="icon-square">
+                                            <i class="bx bx-credit-card"></i>
+                                        </div>
+                                        <div class="pagamento-info">
+                                            <span class="pagamento-nome"
+                                                >Cartão</span
+                                            >
+                                        </div>
+                                        <span class="checkmark"
+                                            ><i class="bx bx-check"></i
+                                        ></span>
+                                    </label>
+
+                                    <label class="pagamento-card">
+                                        <input
+                                            type="radio"
+                                            name="pagamento"
+                                            value="pix"
+                                        />
+                                        <div class="icon-square">
+                                            <i class="bx bx-qr"></i>
+                                        </div>
+                                        <div class="pagamento-info">
+                                            <span class="pagamento-nome"
+                                                >Pix</span
+                                            >
+                                        </div>
+                                        <span class="checkmark"
+                                            ><i class="bx bx-check"></i
+                                        ></span>
+                                    </label>
+
+                                    <label class="pagamento-card">
+                                        <input
+                                            type="radio"
+                                            name="pagamento"
+                                            value="a_prazo"
+                                        />
+                                        <div class="icon-square">
+                                            <i class="bx bx-time"></i>
+                                        </div>
+                                        <div class="pagamento-info">
+                                            <span class="pagamento-nome"
+                                                >A prazo</span
+                                            >
+                                        </div>
+                                        <span class="checkmark"
+                                            ><i class="bx bx-check"></i
+                                        ></span>
+                                    </label>
+                                </div>
+
+                                <!-- Botão Final (dentro da coluna de pagamento, ocupando a mesma largura dos cards) -->
+                                <div class="submit-wrap">
+                                    <button type="submit" class="btn-submit">
+                                        Enviar Pedido
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div id="entregas" class="conteudo">
@@ -287,15 +601,11 @@
                     </div>
                 </div>
             </div>
-            <div id="relatorios" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Relatórios</h1>
-                </div>
-            </div>
         </section>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="/static/js/dashboardDynamic.js"></script>
         <script src="/static/js/clientes.js"></script>
+        <script src="/static/js/pedidos.js"></script>
     </body>
 </html>
