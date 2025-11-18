@@ -36,8 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const p = document.createElement('p');
                 p.textContent = item.endereco || 'Endereço';
 
+                const prod = document.createElement('p');
+                prod.className = 'produto-text';
+                prod.textContent = item.produto ? `Produtos: ${item.produto}` : '';
+
                 body.appendChild(h2);
                 body.appendChild(p);
+                if (prod.textContent) body.appendChild(prod);
 
                 // opcional: ações pequenas (ex.: visualizar, confirmar)
                 const actions = document.createElement('div');

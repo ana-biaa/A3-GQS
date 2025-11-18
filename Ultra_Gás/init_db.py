@@ -2,6 +2,8 @@ from app import create_app, db
 from app.models.users import User
 from app.models.estoque import Estoque
 from app.models.metodosPagamento import MetodosPagamento
+from app.models.clientes import Cliente
+from app.models.entregas import Entrega
 from werkzeug.security import generate_password_hash
 
 
@@ -60,6 +62,41 @@ def init_test_users():
             print('Registro de métodos de pagamento criado (teste)')
         else:
             print('Registro de métodos de pagamento já existe')
+
+        # Cria alguns clientes de teste se não existirem
+        if not Cliente.query.first():
+            clientes_amostra = [
+                Cliente(endereco='Rua das Flores, 123'),
+                Cliente(endereco='Avenida Brasil, 1575'),
+                Cliente(endereco='Rua dos Pinheiros, 900'),
+                Cliente(endereco='Alameda Santos, 300'),
+                Cliente(endereco='Travessa das Palmeiras, 12')
+            ]
+            db.session.add_all(clientes_amostra)
+            db.session.commit()
+            print('Clientes de teste criados')
+        else:
+            print('Clientes já existem')
+
+        # Cria algumas entregas de teste se não existirem
+        if not Entrega.query.first():
+            entregas_amostra = [
+                Entrega(endereco='Avenida Paulista, 1000', destinatario='Maria', produto='p20:1'),
+                Entrega(endereco='Rua das Acácias, 45', destinatario='Pedro', produto='p13:2'),
+                Entrega(endereco='Praça Central, 10', destinatario='Ana', produto='p5:1, agua:1'),
+                Entrega(endereco='Rua do Sol, 220', destinatario='João', produto='p45:1'),
+                Entrega(endereco='Avenida Brasil, 1575', destinatario='Clara', produto='p20:2'),
+                Entrega(endereco='Rua das Flores, 88', destinatario='Ricardo', produto='p8:1'),
+                Entrega(endereco='Travessa das Palmeiras, 12', destinatario='Beatriz', produto='p13:1'),
+                Entrega(endereco='Avenida Independência, 501', destinatario='Lucas', produto='p5:3'),
+                Entrega(endereco='Rua São João, 340', destinatario='Fernanda', produto='agua:2, p45:1'),
+                Entrega(endereco='Praça das Nações, 7', destinatario='Eduardo', produto='p20:1')
+            ]
+            db.session.add_all(entregas_amostra)
+            db.session.commit()
+            print('Entregas de teste criadas')
+        else:
+            print('Entregas já existem')
 
 
 if __name__ == '__main__':

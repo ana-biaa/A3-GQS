@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, session, redirect, url_for, jsonify
 from app import db
 from app.models.estoque import Estoque
+from app.models.clientes import Cliente
+from app.models.entregas import Entrega
 
 # Nota: o limite máximo do estoque (capacidade) está definido em
 # `app/models/estoque.py` como DEFAULT_CAPACITY (atualmente 250).
@@ -42,29 +44,16 @@ def get_entregas_pendentes():
 
     Cada item contém os campos: endereco, destinatario
     """
-    entregas = [
-        {"endereco": "Avenida Paulista, 1000", "destinatario": "Maria"},
-        {"endereco": "Rua das Acácias, 45", "destinatario": "Pedro"},
-        {"endereco": "Praça Central, 10", "destinatario": "Ana"},
-        {"endereco": "Rua do Sol, 220", "destinatario": "João"},
-        {"endereco": "Avenida Brasil, 1575", "destinatario": "Clara"},
-        {"endereco": "Rua das Flores, 88", "destinatario": "Ricardo"},
-        {"endereco": "Travessa das Palmeiras, 12", "destinatario": "Beatriz"},
-        {"endereco": "Avenida Independência, 501", "destinatario": "Lucas"},
-        {"endereco": "Rua São João, 340", "destinatario": "Fernanda"},
-        {"endereco": "Praça das Nações, 7", "destinatario": "Eduardo"},
-        {"endereco": "Rua dos Pinheiros, 900", "destinatario": "Sofia"},
-        {"endereco": "Alameda Santos, 300", "destinatario": "Carla"},
-        {"endereco": "Rua XV de Novembro, 240", "destinatario": "André"},
-        {"endereco": "Rua Bela Vista, 67", "destinatario": "Patrícia"},
-        {"endereco": "Avenida Atlântica, 1902", "destinatario": "Marcelo"},
-        {"endereco": "Rua das Amendoeiras, 15", "destinatario": "Juliana"},
-        {"endereco": "Estrada Velha, 1800", "destinatario": "Roberto"},
-        {"endereco": "Rua do Comércio, 78", "destinatario": "Camila"},
-        {"endereco": "Rua Nova Esperança, 55", "destinatario": "Felipe"},
-        {"endereco": "Avenida das Nações, 120", "destinatario": "Isabela"}
-    ]
-    return jsonify(entregas)
+    try:
+        entregas = Entrega.query.all()
+        result = [e.to_dict() for e in entregas]
+        return jsonify(result)
+    except Exception:
+        # Fallback: caso o DB não esteja acessível, retornar dados estáticos
+        entregas = [
+            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1"}
+        ]
+        return jsonify(entregas)
 
 
 @dashboard_bp.route('/historico-entregas', methods=['GET'])
@@ -101,39 +90,14 @@ def get_clientes():
 
     Cada item contém o campo: endereco
     """
-    clientes = [
-        {"endereco": "Rua das Flores, 123"},
-        {"endereco": "Avenida Paulista, 1000"},
-        {"endereco": "Rua das Acácias, 45"},
-        {"endereco": "Praça Central, 10"},
-        {"endereco": "Avenida Brasil, 1575"},
-        {"endereco": "Rua das Flores, 88"},
-        {"endereco": "Travessa das Palmeiras, 12"},
-        {"endereco": "Rua dos Pinheiros, 321"},
-        {"endereco": "Avenida Atlântica, 500"},
-        {"endereco": "Rua São João, 245"},
-        {"endereco": "Rua Bela Vista, 87"},
-        {"endereco": "Avenida Rio Branco, 900"},
-        {"endereco": "Rua Dom Pedro II, 56"},
-        {"endereco": "Travessa das Margaridas, 33"},
-        {"endereco": "Rua XV de Novembro, 712"},
-        {"endereco": "Avenida Independência, 1020"},
-        {"endereco": "Rua das Oliveiras, 402"},
-        {"endereco": "Praça da Liberdade, 15"},
-        {"endereco": "Rua Coronel Franco, 276"},
-        {"endereco": "Avenida do Contorno, 1500"},
-        {"endereco": "Rua Santa Clara, 640"},
-        {"endereco": "Alameda dos Ipês, 78"},
-        {"endereco": "Rua Professor Lima, 99"},
-        {"endereco": "Rua do Comércio, 312"},
-        {"endereco": "Avenida Europa, 1200"},
-        {"endereco": "Rua General Osório, 455"},
-        {"endereco": "Rua Monte Alegre, 800"},
-        {"endereco": "Avenida das Américas, 2055"},
-        {"endereco": "Rua Tiradentes, 507"},
-        {"endereco": "Travessa dos Lírios, 41"}
-    ]
-    return jsonify(clientes)
+    try:
+        clientes = Cliente.query.all()
+        result = [c.to_dict() for c in clientes]
+        return jsonify(result)
+    except Exception:
+        # Se houver qualquer erro com o DB, usar fallback simples
+        fallback = [{"endereco": "Rua das Flores, 123"}]
+        return jsonify(fallback)
 
 
 @dashboard_bp.route('/cards', methods=['GET'])
