@@ -147,3 +147,38 @@ def api_financeiro():
         ]
     }
     return jsonify(data)
+
+
+@api_bp.route('/clientes', methods=['POST'])
+def api_clientes_create():
+    """Cria um novo cliente a partir do payload { endereco: '...' }.
+
+    Retorna 201 com o cliente criado ou 400/500 em caso de falha.
+    """
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({'error': 'JSON inválido'}), 400
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Payload inválido'}), 400
+
+    endereco = data.get('endereco')
+    if not endereco or not str(endereco).strip():
+        return jsonify({'error': 'Campo endereco é obrigatório'}), 400
+
+    try:
+        from app import db
+        from app.models.clientes import Cliente
+
+        cliente = Cliente(endereco=str(endereco).strip())
+        db.session.add(cliente)
+        db.session.commit()
+
+        return jsonify({'ok': True, 'cliente': cliente.to_dict()}), 201
+    except Exception as e:
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return jsonify({'error': 'Falha ao criar cliente', 'detail': str(e)}), 500
