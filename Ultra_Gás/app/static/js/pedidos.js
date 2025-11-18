@@ -45,11 +45,49 @@
             .map(([nome, quantidade]) => ({ nome, quantidade }));
     }
 
+    function produtosToString(produtos) {
+        return produtos.map(p => `${p.nome}:${p.quantidade}`).join(', ');
+    }
+
+    function showPedidoModal(message, title = 'Aviso', type = 'info', autoClose = false) {
+        // cria overlay + card e injeta no body
+        const overlay = document.createElement('div');
+        overlay.className = 'pedido-modal-overlay';
+        overlay.setAttribute('aria-hidden', 'false');
+
+        const card = document.createElement('div');
+        card.className = `pedido-modal-card ${type}`;
+        card.setAttribute('role', 'dialog');
+        card.setAttribute('aria-modal', 'true');
+
+        const btnClose = document.createElement('button');
+        btnClose.className = 'modal-close';
+        btnClose.innerHTML = '&times;';
+        btnClose.addEventListener('click', () => { document.body.removeChild(overlay); });
+
+        const h3 = document.createElement('h3');
+        h3.className = 'modal-title';
+        h3.textContent = title;
+
+        const content = document.createElement('div');
+        content.className = 'modal-content';
+        content.textContent = message;
+
+        card.appendChild(btnClose);
+        card.appendChild(h3);
+        card.appendChild(content);
+        overlay.appendChild(card);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) document.body.removeChild(overlay); });
+
+        document.body.appendChild(overlay);
+        if (autoClose) setTimeout(() => { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 5000);
+    }
+
     function handleSubmit() {
         const form = document.getElementById('pedidoForm');
         if (!form) return;
 
-        form.addEventListener('submit', (ev) => {
+        form.addEventListener('submit', async (ev) => {
             ev.preventDefault();
             const endereco = document.getElementById('enderecoInput')?.value?.trim() || '';
             const cliente = document.getElementById('clienteInput')?.value?.trim() || '';
@@ -58,32 +96,55 @@
 
             // validações simples
             if (!endereco) {
-                alert('Informe o endereço.');
+                showPedidoModal('Informe o endereço.', 'Erro', 'error');
                 return;
             }
             if (!cliente) {
-                alert('Informe o nome do cliente.');
+                showPedidoModal('Informe o nome do cliente.', 'Erro', 'error');
                 return;
             }
             if (produtos.length === 0) {
-                alert('Selecione ao menos 1 produto (quantidade > 0).');
+                showPedidoModal('Selecione ao menos 1 produto (quantidade > 0).', 'Erro', 'error');
                 return;
             }
             if (pagamentos.length === 0) {
-                alert('Selecione ao menos 1 forma de pagamento.');
+                showPedidoModal('Selecione ao menos 1 forma de pagamento.', 'Erro', 'error');
                 return;
             }
 
-            const payload = { endereco, cliente, produtos, pagamentos };
+            const produtoStr = produtosToString(produtos);
+            const metodo = pagamentos[0];
+
+            const payload = { endereco, destinatario: cliente, produto: produtoStr, metodo_pagamento: metodo };
             console.log('[pedido] payload pronto para envio', payload);
 
-            // Aqui poderíamos enviar para o backend (ex.: POST /api/pedidos)
-            // fetch('/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-            //   .then(r => r.json())
-            //   .then(resp => { console.log('Pedido enviado com sucesso', resp); })
-            //   .catch(err => { console.error('Falha ao enviar pedido', err); });
+            try {
+                const res = await fetch('/api/pedidos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            alert('Pedido pronto para envio (veja o console para o payload).');
+                const body = await res.json().catch(() => ({}));
+                if (res.ok) {
+                    showPedidoModal('Pedido registrado com sucesso.', 'Sucesso', 'success', true);
+                    // resetar quantidades e campos
+                    Object.keys(state).forEach(k => { state[k] = 0; updateQtyDisplay(k); });
+                    document.getElementById('enderecoInput').value = '';
+                    document.getElementById('clienteInput').value = '';
+                    // desmarcar pagamentos
+                    const sel = document.querySelector('input[name="pagamento"]:checked');
+                    if (sel) sel.checked = false;
+                    console.log('Resposta do servidor', body);
+                } else {
+                    const msg = body?.error || 'Erro ao enviar pedido';
+                    showPedidoModal(`Falha ao enviar pedido: ${msg}`, 'Erro', 'error');
+                    console.error('Falha ao enviar pedido', body);
+                }
+            } catch (err) {
+                console.error('Erro de rede ao enviar pedido', err);
+                showPedidoModal('Erro de rede ao enviar pedido. Veja console para detalhes.', 'Erro', 'error');
+            }
         });
     }
 

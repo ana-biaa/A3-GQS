@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
@@ -44,6 +44,71 @@ def api_estoque():
         }
     }
     return jsonify(data)
+
+
+@api_bp.route('/pedidos', methods=['POST'])
+def api_pedidos():
+    """Recebe um pedido do front-end, valida e grava como uma Entrega.
+
+    Aceita payloads flexíveis:
+      - já formatado: { endereco, destinatario, produto, metodo_pagamento }
+      - ou raw: { endereco, cliente, produtos: [{nome,quantidade}], pagamentos: [metodo] }
+
+    Retorna 201 com o registro salvo ou 400/500 em erro.
+    """
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({'error': 'JSON inválido'}), 400
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Payload inválido'}), 400
+
+    endereco = data.get('endereco') or data.get('rua')
+    destinatario = data.get('destinatario') or data.get('cliente')
+
+    # normalizar produto: pode vir como string ou como lista de objetos
+    produto = data.get('produto')
+    if not produto and isinstance(data.get('produtos'), list):
+        parts = []
+        for p in data.get('produtos'):
+            nome = p.get('nome') if isinstance(p, dict) else None
+            quantidade = p.get('quantidade') if isinstance(p, dict) else None
+            if nome and quantidade:
+                parts.append(f"{nome}:{quantidade}")
+        produto = ', '.join(parts) if parts else None
+
+    # normalizar método de pagamento (single)
+    metodo = data.get('metodo_pagamento')
+    if not metodo and isinstance(data.get('pagamentos'), list):
+        metodo = data.get('pagamentos')[0] if len(data.get('pagamentos')) > 0 else None
+
+    # validações básicas
+    if not endereco or not destinatario:
+        return jsonify({'error': 'Campos obrigatórios ausentes: endereco e destinatario'}), 400
+    if not produto:
+        return jsonify({'error': 'Nenhum produto informado'}), 400
+
+    allowed = {'pix', 'a_prazo', 'cartao', 'dinheiro'}
+    if metodo and metodo not in allowed:
+        return jsonify({'error': 'metodo_pagamento inválido'}), 400
+
+    # grava no banco
+    try:
+        from app import db
+        from app.models.entregas import Entrega
+
+        entrega = Entrega(endereco=endereco, destinatario=destinatario, produto=produto, metodo_pagamento=metodo)
+        db.session.add(entrega)
+        db.session.commit()
+
+        return jsonify({'ok': True, 'entrega': entrega.to_dict()}), 201
+    except Exception as e:
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return jsonify({'error': 'Falha ao gravar entrega', 'detail': str(e)}), 500
 
 
 @api_bp.route('/financeiro', methods=['GET'])

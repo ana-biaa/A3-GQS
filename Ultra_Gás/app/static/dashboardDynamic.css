@@ -455,6 +455,75 @@ header .image-text .header-text {
     padding: 20px 40px;
 }
 
+/* =====================
+   Modal simples para mensagens de Pedido
+   (inspirado no modal-card do template de login)
+===================== */
+.pedido-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2200;
+}
+
+.pedido-modal-card {
+    background: var(--cor-secundaria);
+    border-radius: 8px;
+    border: 10px solid var(--cor-fundo);
+    /* aumento ~10% nas dimensões/padding */
+    padding: 22px 24px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    /* 10% maior que 520px */
+    max-width: 572px;
+    width: 92%;
+    color: var(--cor-texto);
+    position: relative;
+    box-sizing: border-box;
+    /* fonte 10% maior */
+    font-size: 1.1rem;
+}
+
+.pedido-modal-card .modal-close {
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    /* 10% maior */
+    cursor: pointer;
+    color: var(--cor-texto);
+}
+
+.pedido-modal-card .modal-title {
+    margin: 6px 0 10px 0;
+    font-weight: 700;
+    font-size: 1.155rem;
+    /* 10% maior que 1.05rem */
+}
+
+.pedido-modal-card .modal-content {
+    line-height: 1.4;
+    color: var(--cor-texto);
+}
+
+/* variações por tipo */
+.pedido-modal-card.success {
+    border-left: 6px solid #28a745;
+}
+
+.pedido-modal-card.error {
+    border-left: 6px solid #dc3545;
+}
+
+.pedido-modal-card.info {
+    border-left: 6px solid #0d6efd;
+}
+
+
 .identificacao-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(240px, 1fr));
