@@ -149,8 +149,60 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        loadEnderecoSuggestions();
         bindProductCards();
         Object.keys(state).forEach(updateQtyDisplay);
+
+        // Busca endereços já cadastrados e popula um datalist para sugestões
+        async function loadEnderecoSuggestions() {
+            const input = document.getElementById('enderecoInput');
+            if (!input) return;
+
+            const datalistId = 'datalist-clientes-enderecos';
+            // evita recriar se já existir
+            if (document.getElementById(datalistId)) {
+                input.setAttribute('list', datalistId);
+                return;
+            }
+
+            try {
+                const res = await fetch('/dashboard/clientes');
+                if (!res.ok) return;
+                const data = await res.json().catch(() => null);
+                if (!Array.isArray(data)) return;
+
+                // extrai endereços únicos
+                const seen = new Set();
+                const enderecos = [];
+                data.forEach(item => {
+                    const e = (item && (item.endereco || item.address || item.rua)) || null;
+                    if (e) {
+                        const txt = String(e).trim();
+                        if (txt && !seen.has(txt)) {
+                            seen.add(txt);
+                            enderecos.push(txt);
+                        }
+                    }
+                });
+
+                if (enderecos.length === 0) return;
+
+                const dl = document.createElement('datalist');
+                dl.id = datalistId;
+                // limitar a 100 sugestões por precaução
+                enderecos.slice(0, 100).forEach(addr => {
+                    const opt = document.createElement('option');
+                    opt.value = addr;
+                    dl.appendChild(opt);
+                });
+
+                document.body.appendChild(dl);
+                input.setAttribute('list', datalistId);
+            } catch (err) {
+                // falha silenciosa — não impede uso manual do campo
+                console.debug('Não foi possível carregar sugestões de endereço', err);
+            }
+        }
         handleSubmit();
     });
 })();
