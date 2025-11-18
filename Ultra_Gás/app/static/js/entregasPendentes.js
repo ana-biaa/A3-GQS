@@ -2,6 +2,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('lista-entregas');
     if (!container) return;
 
+    function formatMetodo(m) {
+        switch (m) {
+            case 'pix': return 'Pix';
+            case 'a_prazo': return 'A prazo';
+            case 'cartao': return 'Cartão';
+            case 'dinheiro': return 'Dinheiro';
+            default: return m || '';
+        }
+    }
+
     container.innerHTML = 'Carregando...';
 
     fetch('/dashboard/entregas-pendentes')
@@ -40,9 +50,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 prod.className = 'produto-text';
                 prod.textContent = item.produto ? `Produtos: ${item.produto}` : '';
 
+                // elemento de método de pagamento
+                const metodo = document.createElement('p');
+                metodo.className = 'metodo-pagamento';
+                metodo.textContent = item.metodo_pagamento ? `Pagamento: ${formatMetodo(item.metodo_pagamento)}` : '';
+
                 body.appendChild(h2);
                 body.appendChild(p);
                 if (prod.textContent) body.appendChild(prod);
+                if (metodo.textContent) body.appendChild(metodo);
 
                 // opcional: ações pequenas (ex.: visualizar, confirmar)
                 const actions = document.createElement('div');

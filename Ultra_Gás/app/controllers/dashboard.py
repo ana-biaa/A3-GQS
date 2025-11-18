@@ -51,7 +51,7 @@ def get_entregas_pendentes():
     except Exception:
         # Fallback: caso o DB não esteja acessível, retornar dados estáticos
         entregas = [
-            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1"}
+            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1", "metodo_pagamento": "dinheiro"}
         ]
         return jsonify(entregas)
 
