@@ -78,19 +78,24 @@ def init_test_users():
         else:
             print('Clientes já existem')
 
-        # Cria algumas entregas de teste se não existirem
+        # Cria algumas entregas de teste se não existirem (com novos campos)
+        # pendentes: encarregado vazio, entregue False, pago False
+        # histórico: entregue True e pago True
         if not Entrega.query.first():
             entregas_amostra = [
-                Entrega(endereco='Avenida Paulista, 1000', destinatario='Maria', produto='p20:1', metodo_pagamento='pix'),
-                Entrega(endereco='Rua das Acácias, 45', destinatario='Pedro', produto='p13:2', metodo_pagamento='cartao'),
-                Entrega(endereco='Praça Central, 10', destinatario='Ana', produto='p5:1, agua:1', metodo_pagamento='dinheiro'),
-                Entrega(endereco='Rua do Sol, 220', destinatario='João', produto='p45:1', metodo_pagamento='a_prazo'),
-                Entrega(endereco='Avenida Brasil, 1575', destinatario='Clara', produto='p20:2', metodo_pagamento='pix'),
-                Entrega(endereco='Rua das Flores, 88', destinatario='Ricardo', produto='p8:1', metodo_pagamento='dinheiro'),
-                Entrega(endereco='Travessa das Palmeiras, 12', destinatario='Beatriz', produto='p13:1', metodo_pagamento='cartao'),
-                Entrega(endereco='Avenida Independência, 501', destinatario='Lucas', produto='p5:3', metodo_pagamento='pix'),
-                Entrega(endereco='Rua São João, 340', destinatario='Fernanda', produto='agua:2, p45:1', metodo_pagamento='dinheiro'),
-                Entrega(endereco='Praça das Nações, 7', destinatario='Eduardo', produto='p20:1', metodo_pagamento='cartao')
+                # Pendentes
+                Entrega(endereco='Avenida Paulista, 1000', destinatario='Maria', produto='p20:1', metodo_pagamento='pix', encarregado='', entregue=False, pago=False),
+                Entrega(endereco='Rua das Acácias, 45', destinatario='Pedro', produto='p13:2', metodo_pagamento='cartao', encarregado='', entregue=False, pago=False),
+                Entrega(endereco='Praça Central, 10', destinatario='Ana', produto='p5:1, agua:1', metodo_pagamento='dinheiro', encarregado='', entregue=False, pago=False),
+                Entrega(endereco='Rua do Sol, 220', destinatario='João', produto='p45:1', metodo_pagamento='a_prazo', encarregado='', entregue=False, pago=False),
+                Entrega(endereco='Rua São João, 340', destinatario='Fernanda', produto='agua:2, p45:1', metodo_pagamento='dinheiro', encarregado='', entregue=False, pago=False),
+                # Em progresso (tem encarregado mas ainda não entregue/pago) - NÃO aparece em pendentes
+                Entrega(endereco='Avenida Brasil, 1575', destinatario='Clara', produto='p20:2', metodo_pagamento='pix', encarregado='Equipe A', entregue=False, pago=False),
+                Entrega(endereco='Rua das Flores, 88', destinatario='Ricardo', produto='p8:1', metodo_pagamento='dinheiro', encarregado='Equipe B', entregue=False, pago=False),
+                # Histórico (entregue e pago; aparece em histórico)
+                Entrega(endereco='Travessa das Palmeiras, 12', destinatario='Beatriz', produto='p13:1', metodo_pagamento='cartao', encarregado='Equipe A', entregue=True, pago=True),
+                Entrega(endereco='Avenida Independência, 501', destinatario='Lucas', produto='p5:3', metodo_pagamento='pix', encarregado='Equipe C', entregue=True, pago=True),
+                Entrega(endereco='Praça das Nações, 7', destinatario='Eduardo', produto='p20:1', metodo_pagamento='cartao', encarregado='Equipe B', entregue=True, pago=True)
             ]
             db.session.add_all(entregas_amostra)
             db.session.commit()

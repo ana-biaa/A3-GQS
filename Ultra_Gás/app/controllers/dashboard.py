@@ -45,13 +45,14 @@ def get_entregas_pendentes():
     Cada item contém os campos: endereco, destinatario
     """
     try:
-        entregas = Entrega.query.all()
+        # pendentes: encarregado vazio e entregue == False
+        entregas = Entrega.query.filter(Entrega.encarregado == '', Entrega.entregue.is_(False)).all()
         result = [e.to_dict() for e in entregas]
         return jsonify(result)
     except Exception:
-        # Fallback: caso o DB não esteja acessível, retornar dados estáticos
+        # Fallback inclui novos campos
         entregas = [
-            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1", "metodo_pagamento": "dinheiro"}
+            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1", "metodo_pagamento": "dinheiro", "encarregado": "", "entregue": False, "pago": False}
         ]
         return jsonify(entregas)
 
@@ -62,26 +63,15 @@ def get_historico_entregas():
 
     Cada item contém os campos: endereco, destinatario
     """
-    historico = [
-        {"endereco": "Rua das Flores, 123", "destinatario": "João"},
-        {"endereco": "Avenida Brasil, 1575", "destinatario": "Clara"},
-        {"endereco": "Rua dos Pinheiros, 900", "destinatario": "Sofia"},
-        {"endereco": "Alameda Santos, 300", "destinatario": "Carla"},
-        {"endereco": "Rua Bela Vista, 67", "destinatario": "Patrícia"},
-        {"endereco": "Estrada Velha, 1800", "destinatario": "Roberto"},
-        {"endereco": "Praça das Nações, 7", "destinatario": "Eduardo"},
-        {"endereco": "Rua dos Pinheiros, 900", "destinatario": "Sofia"},
-        {"endereco": "Alameda Santos, 300", "destinatario": "Carla"},
-        {"endereco": "Rua XV de Novembro, 240", "destinatario": "André"},
-        {"endereco": "Rua Bela Vista, 67", "destinatario": "Patrícia"},
-        {"endereco": "Avenida Atlântica, 1902", "destinatario": "Marcelo"},
-        {"endereco": "Rua das Amendoeiras, 15", "destinatario": "Juliana"},
-        {"endereco": "Estrada Velha, 1800", "destinatario": "Roberto"},
-        {"endereco": "Rua do Comércio, 78", "destinatario": "Camila"},
-        {"endereco": "Rua Nova Esperança, 55", "destinatario": "Felipe"},
-        {"endereco": "Avenida das Nações, 120", "destinatario": "Isabela"}
-    ]
-    return jsonify(historico)
+    try:
+        # histórico: entregue True e pago True
+        historico_db = Entrega.query.filter(Entrega.entregue.is_(True), Entrega.pago.is_(True)).all()
+        return jsonify([e.to_dict() for e in historico_db])
+    except Exception:
+        historico = [
+            {"endereco": "Rua das Flores, 123", "destinatario": "João", "produto": "p13:1", "metodo_pagamento": "pix", "encarregado": "Carlos", "entregue": True, "pago": True}
+        ]
+        return jsonify(historico)
 
 
 @dashboard_bp.route('/clientes', methods=['GET'])

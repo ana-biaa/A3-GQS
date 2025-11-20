@@ -98,7 +98,15 @@ def api_pedidos():
         from app import db
         from app.models.entregas import Entrega
 
-        entrega = Entrega(endereco=endereco, destinatario=destinatario, produto=produto, metodo_pagamento=metodo)
+        entrega = Entrega(
+            endereco=endereco,
+            destinatario=destinatario,
+            produto=produto,
+            metodo_pagamento=metodo,
+            encarregado='',   # inicia vazio
+            entregue=False,   # inicia não entregue
+            pago=False        # inicia não pago
+        )
         db.session.add(entrega)
         db.session.commit()
 
