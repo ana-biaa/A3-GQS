@@ -98,6 +98,8 @@ def api_pedidos():
         from app import db
         from app.models.entregas import Entrega
 
+        preco = data.get('preco') or ''
+
         entrega = Entrega(
             endereco=endereco,
             destinatario=destinatario,
@@ -105,7 +107,8 @@ def api_pedidos():
             metodo_pagamento=metodo,
             encarregado='',   # inicia vazio
             entregue=False,   # inicia não entregue
-            pago=False        # inicia não pago
+            pago=False,        # inicia não pago
+            preco=preco        # valor calculado pelo front-end
         )
         db.session.add(entrega)
         db.session.commit()
@@ -190,3 +193,23 @@ def api_clientes_create():
         except Exception:
             pass
         return jsonify({'error': 'Falha ao criar cliente', 'detail': str(e)}), 500
+
+
+@api_bp.route('/entregas/<int:entrega_id>/confirm', methods=['POST'])
+def api_entrega_confirm(entrega_id):
+    """Marca uma entrega como entregue (entregue=True). Retorna registro atualizado."""
+    try:
+        from app import db
+        from app.models.entregas import Entrega
+        entrega = Entrega.query.get(entrega_id)
+        if not entrega:
+            return jsonify({'error': 'Entrega não encontrada'}), 404
+        entrega.entregue = True
+        db.session.commit()
+        return jsonify({'ok': True, 'entrega': entrega.to_dict()})
+    except Exception as e:
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return jsonify({'error': 'Falha ao confirmar entrega', 'detail': str(e)}), 500

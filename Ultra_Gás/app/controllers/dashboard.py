@@ -30,12 +30,31 @@ def show_dashboard():
 
 @dashboard_bp.route('/entrega-atual', methods=['GET'])
 def get_entrega_atual():
-    # Simulated data for demonstration purposes
-    entrega_data = {
-        "endereco": "Rua das Flores, 123",
-        "destinatario": "João"
-    }
-    return entrega_data
+    """Retorna lista de entregas atribuídas ao usuário logado (encarregado == nome) e ainda não entregues.
+
+    Se não houver sessão ou nenhuma entrega, retorna fallback com um exemplo.
+    """
+    user_name = session.get('user_name')
+    if not user_name:
+        return jsonify([])
+    try:
+        entregas = Entrega.query.filter(Entrega.encarregado == user_name, Entrega.entregue.is_(False)).all()
+        return jsonify([e.to_dict() for e in entregas])
+    except Exception:
+        # Fallback: um exemplo com preco
+        return jsonify([
+            {
+                'id': 999,
+                'endereco': 'Rua Exemplo, 100',
+                'destinatario': 'Destinatário Exemplo',
+                'produto': 'p20:1, agua:1',
+                'metodo_pagamento': 'pix',
+                'encarregado': user_name,
+                'entregue': False,
+                'pago': False,
+                'preco': '210'
+            }
+        ])
 
 
 @dashboard_bp.route('/entregas-pendentes', methods=['GET'])
@@ -50,9 +69,9 @@ def get_entregas_pendentes():
         result = [e.to_dict() for e in entregas]
         return jsonify(result)
     except Exception:
-        # Fallback inclui novos campos
+        # Fallback inclui todos os campos, inclusive preco
         entregas = [
-            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1", "metodo_pagamento": "dinheiro", "encarregado": "", "entregue": False, "pago": False}
+            {"endereco": "Rua São João, 340", "destinatario": "Fernanda", "produto": "agua:2, p45:1", "metodo_pagamento": "dinheiro", "encarregado": "", "entregue": False, "pago": False, "preco": "420"}
         ]
         return jsonify(entregas)
 
@@ -69,7 +88,7 @@ def get_historico_entregas():
         return jsonify([e.to_dict() for e in historico_db])
     except Exception:
         historico = [
-            {"endereco": "Rua das Flores, 123", "destinatario": "João", "produto": "p13:1", "metodo_pagamento": "pix", "encarregado": "Carlos", "entregue": True, "pago": True}
+            {"endereco": "Rua das Flores, 123", "destinatario": "João", "produto": "p13:1", "metodo_pagamento": "pix", "encarregado": "Carlos", "entregue": True, "pago": True, "preco": "130"}
         ]
         return jsonify(historico)
 

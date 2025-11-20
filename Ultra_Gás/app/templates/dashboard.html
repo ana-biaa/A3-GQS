@@ -113,38 +113,25 @@
             <!-- CSS Estilo da segunda aba do admin dashboard -->
             <div id="entregaatual" class="conteudo">
                 <div class="entrega-container">
-                    <!-- New container for title and card -->
                     <h1 class="section-title">Entrega Atual</h1>
-                    <div class="entrega-card">
-                        <div class="card-header">
-                            <i class="bx bxs-truck"></i>
-                            <div class="card-info">
-                                <p class="endereco">
-                                    Endereço:
-                                    <span id="endereco-dinamico"
-                                        >Carregando...</span
-                                    >
-                                </p>
-                                <p class="destinatario">
-                                    Destinatário:
-                                    <span id="nome-destinatario"
-                                        >Carregando...</span
-                                    >
-                                </p>
-                            </div>
+                    <div class="entrega-lista-wrap">
+                        <div id="lista-entrega-atual" class="entrega-lista">
+                            Carregando...
                         </div>
-                        <div class="card-actions">
-                            <button class="btn confirmar-entrega">
-                                <i class="bx bx-check-circle btn-icon"></i>
-                                Confirmar Entrega
+                        <div class="scroll-controls" aria-hidden="false">
+                            <button
+                                id="scroll-up-atual"
+                                class="small-scroll"
+                                aria-label="Rolar para cima"
+                            >
+                                ▲
                             </button>
-                            <button class="btn consultar-detalhes">
-                                <i class="bx bx-check-circle btn-icon"></i>
-                                Consultar Detalhes do Pedido
-                            </button>
-                            <button class="btn relatar-problema">
-                                <i class="bx bx-check-circle btn-icon"></i>
-                                Relatar Problema
+                            <button
+                                id="scroll-down-atual"
+                                class="small-scroll"
+                                aria-label="Rolar para baixo"
+                            >
+                                ▼
                             </button>
                         </div>
                     </div>

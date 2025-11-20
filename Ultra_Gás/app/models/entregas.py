@@ -23,6 +23,8 @@ class Entrega(db.Model):
     encarregado = db.Column(db.String(120), nullable=True, default='', server_default='')  # inicia vazio
     entregue = db.Column(db.Boolean, nullable=False, default=False, server_default='0')     # inicia False
     pago = db.Column(db.Boolean, nullable=False, default=False, server_default='0')          # inicia False
+    # novo campo de preço total do pedido (string formatada ou valor simples) inicia vazio
+    preco = db.Column(db.String(32), nullable=True, default='', server_default='')
 
     # Constraint simples para garantir que, quando informado, o método esteja entre os permitidos.
     # Observe: se mudar os valores permitidos, atualize também esta expressão.
@@ -39,5 +41,6 @@ class Entrega(db.Model):
             'metodo_pagamento': self.metodo_pagamento,
             'encarregado': self.encarregado,
             'entregue': self.entregue,
-            'pago': self.pago
+            'pago': self.pago,
+            'preco': self.preco
         }

@@ -115,7 +115,18 @@
             const produtoStr = produtosToString(produtos);
             const metodo = pagamentos[0];
 
-            const payload = { endereco, destinatario: cliente, produto: produtoStr, metodo_pagamento: metodo };
+            // tabela de preços unitários
+            const PRECO_UNIT = { p45: 400, p20: 200, p13: 130, p8: 100, p5: 90, agua: 10 };
+            let total = 0;
+            produtos.forEach(p => {
+                if (PRECO_UNIT[p.nome] != null) {
+                    total += PRECO_UNIT[p.nome] * p.quantidade;
+                }
+            });
+            // envia como string simples (ex.: "1130") ou poderia formatar BRL
+            const precoStr = String(total);
+
+            const payload = { endereco, destinatario: cliente, produto: produtoStr, metodo_pagamento: metodo, preco: precoStr };
             console.log('[pedido] payload pronto para envio', payload);
 
             try {

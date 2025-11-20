@@ -78,31 +78,63 @@ def init_test_users():
         else:
             print('Clientes já existem')
 
-        # Cria algumas entregas de teste se não existirem (com novos campos)
-        # pendentes: encarregado vazio, entregue False, pago False
-        # histórico: entregue True e pago True
+        # Função de cálculo de preço para entregas
+        precos_unit = {
+            'p45': 400,
+            'p20': 200,
+            'p13': 130,
+            'p8': 100,
+            'p5': 90,
+            'agua': 10
+        }
+
+        def calcular_preco(produto_str: str) -> str:
+            if not produto_str:
+                return '0'
+            total = 0
+            for par in [p.strip() for p in produto_str.split(',') if p.strip()]:
+                if ':' in par:
+                    nome, qtd = par.split(':', 1)
+                    try:
+                        quantidade = int(qtd.strip())
+                    except ValueError:
+                        quantidade = 0
+                    total += precos_unit.get(nome.strip().lower(), 0) * quantidade
+            return str(total)
+
+        # Cria algumas entregas de teste (inclui preco) se não existirem
         if not Entrega.query.first():
-            entregas_amostra = [
-                # Pendentes
-                Entrega(endereco='Avenida Paulista, 1000', destinatario='Maria', produto='p20:1', metodo_pagamento='pix', encarregado='', entregue=False, pago=False),
-                Entrega(endereco='Rua das Acácias, 45', destinatario='Pedro', produto='p13:2', metodo_pagamento='cartao', encarregado='', entregue=False, pago=False),
-                Entrega(endereco='Praça Central, 10', destinatario='Ana', produto='p5:1, agua:1', metodo_pagamento='dinheiro', encarregado='', entregue=False, pago=False),
-                Entrega(endereco='Rua do Sol, 220', destinatario='João', produto='p45:1', metodo_pagamento='a_prazo', encarregado='', entregue=False, pago=False),
-                Entrega(endereco='Rua São João, 340', destinatario='Fernanda', produto='agua:2, p45:1', metodo_pagamento='dinheiro', encarregado='', entregue=False, pago=False),
-                # Em progresso (tem encarregado mas ainda não entregue/pago) - NÃO aparece em pendentes
-                Entrega(endereco='Avenida Brasil, 1575', destinatario='Clara', produto='p20:2', metodo_pagamento='pix', encarregado='Equipe A', entregue=False, pago=False),
-                Entrega(endereco='Rua das Flores, 88', destinatario='Ricardo', produto='p8:1', metodo_pagamento='dinheiro', encarregado='Equipe B', entregue=False, pago=False),
-                # Histórico (entregue e pago; aparece em histórico)
-                Entrega(endereco='Travessa das Palmeiras, 12', destinatario='Beatriz', produto='p13:1', metodo_pagamento='cartao', encarregado='Equipe A', entregue=True, pago=True),
-                Entrega(endereco='Avenida Independência, 501', destinatario='Lucas', produto='p5:3', metodo_pagamento='pix', encarregado='Equipe C', entregue=True, pago=True),
-                Entrega(endereco='Praça das Nações, 7', destinatario='Eduardo', produto='p20:1', metodo_pagamento='cartao', encarregado='Equipe B', entregue=True, pago=True)
+            dados_entregas = [
+                # Pendentes (sem encarregado)
+                ('Avenida Paulista, 1000','Maria','p20:1','pix','',False,False),
+                ('Rua das Acácias, 45','Pedro','p13:2','cartao','',False,False),
+                ('Praça Central, 10','Ana','p5:1, agua:1','dinheiro','',False,False),
+                ('Rua do Sol, 220','João','p45:1','a_prazo','',False,False),
+                ('Rua São João, 340','Fernanda','agua:2, p45:1','dinheiro','',False,False),
+                # Atribuídas ao usuário de teste (Entrega Atual)
+                ('Rua Alfa, 10','Cliente X','p20:1, agua:1','pix','Usuário de Teste',False,False),
+                ('Rua Beta, 22','Cliente Y','p45:1','dinheiro','Usuário de Teste',False,False),
+                ('Rua Gama, 33','Cliente Z','p13:2','cartao','Usuário de Teste',False,False),
+                ('Rua Delta, 44','Cliente W','p5:1, p8:1','a_prazo','Usuário de Teste',False,False),
+                # Em progresso (tem encarregado mas ainda não entregue/pago)
+                ('Avenida Brasil, 1575','Clara','p20:2','pix','Equipe A',False,False),
+                ('Rua das Flores, 88','Ricardo','p8:1','dinheiro','Equipe B',False,False),
+                # Histórico (entregue e pago)
+                ('Travessa das Palmeiras, 12','Beatriz','p13:1','cartao','Equipe A',True,True),
+                ('Avenida Independência, 501','Lucas','p5:3','pix','Equipe C',True,True),
+                ('Praça das Nações, 7','Eduardo','p20:1','cartao','Equipe B',True,True)
             ]
-            db.session.add_all(entregas_amostra)
+            entregas_objs = [
+                Entrega(
+                    endereco=e[0], destinatario=e[1], produto=e[2], metodo_pagamento=e[3],
+                    encarregado=e[4], entregue=e[5], pago=e[6], preco=calcular_preco(e[2])
+                ) for e in dados_entregas
+            ]
+            db.session.add_all(entregas_objs)
             db.session.commit()
-            print('Entregas de teste criadas')
+            print('Entregas de teste criadas com campo preco')
         else:
             print('Entregas já existem')
-
 
 if __name__ == '__main__':
     init_test_users()

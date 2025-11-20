@@ -33,11 +33,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 const h2 = document.createElement('h2');
                 h2.textContent = item.destinatario || 'Destinatário';
 
-                const p = document.createElement('p');
-                p.textContent = item.endereco || 'Endereço';
+                const pEndereco = document.createElement('p');
+                pEndereco.textContent = item.endereco || 'Endereço';
+
+                const pProduto = document.createElement('p');
+                pProduto.textContent = 'Produto: ' + (item.produto || '-');
+
+                const pMetodo = document.createElement('p');
+                pMetodo.textContent = 'Pagamento: ' + (item.metodo_pagamento || '-');
+
+                const pPreco = document.createElement('p');
+                pPreco.textContent = 'Preço: R$ ' + (item.preco || '0');
 
                 body.appendChild(h2);
-                body.appendChild(p);
+                body.appendChild(pEndereco);
+                body.appendChild(pProduto);
+                body.appendChild(pMetodo);
+                body.appendChild(pPreco);
 
                 card.appendChild(icon);
                 card.appendChild(body);
