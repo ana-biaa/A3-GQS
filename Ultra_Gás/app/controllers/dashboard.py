@@ -146,13 +146,44 @@ def get_estoque_cards():
       - vendas_do_dia: string (R$ ...)
       - pagamentos: { recebidos: string (R$ ...), pendentes: string (R$ ...) }
     """
-    data = {
-        "vendas_do_dia_num": 1000,
-        "pagamentos": {
-            "recebidos_num": 800,
-            "pendentes_num": 200
+    # Calcula valores reais a partir da tabela Entrega.
+    # vendas_do_dia_num permanece como valor simples (não há campo de data em Entrega para filtrar por dia).
+    try:
+        # Total recebido: entregas pagas (pago=True)
+        recebidas = Entrega.query.filter(Entrega.pago.is_(True)).all()
+        recebidos_total = 0
+        for e in recebidas:
+            try:
+                recebidos_total += int(e.preco or 0)
+            except ValueError:
+                # Ignora valores não numéricos
+                pass
+
+        # Total pendente: entregas já entregues mas não pagas (entregue=True, pago=False)
+        pendentes = Entrega.query.filter(Entrega.entregue.is_(True), Entrega.pago.is_(False)).all()
+        pendentes_total = 0
+        for e in pendentes:
+            try:
+                pendentes_total += int(e.preco or 0)
+            except ValueError:
+                pass
+
+        data = {
+            "vendas_do_dia_num": 1000,  # Placeholder até existir lógica de vendas por dia
+            "pagamentos": {
+                "recebidos_num": recebidos_total,
+                "pendentes_num": pendentes_total
+            }
         }
-    }
+    except Exception:
+        # Fallback para não quebrar o dashboard se ocorrer erro inesperado
+        data = {
+            "vendas_do_dia_num": 1000,
+            "pagamentos": {
+                "recebidos_num": 0,
+                "pendentes_num": 0
+            }
+        }
     return jsonify(data)
 
 
