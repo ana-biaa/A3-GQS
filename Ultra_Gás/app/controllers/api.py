@@ -124,40 +124,51 @@ def api_pedidos():
 
 @api_bp.route('/financeiro', methods=['GET'])
 def api_financeiro():
-    """Retorna dados simulados para o gráfico financeiro.
+    """Retorna dados para o gráfico financeiro com base nas entregas.
 
+    Conta quantas entregas (entregue=True) foram realizadas por cada método de pagamento.
     Estrutura retornada compatível com Chart.js (labels + datasets).
     """
-    # Tenta usar dados reais do banco (tabela metodos_pagamento)
+    from sqlalchemy import func
     try:
-        from app.models.metodosPagamento import MetodosPagamento
-        mp = MetodosPagamento.query.first()
-        if mp:
-            data = {
-                "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
-                "datasets": [
-                    {
-                        "data": mp.as_list(),
-                        "backgroundColor": ["#4dc9f6", "#f67019", "#f53794", "#537bc4"]
-                    }
-                ]
-            }
-            return jsonify(data)
-    except Exception:
-        # se qualquer erro ao acessar o DB, cai no mock
-        pass
+        from app import db
+        from app.models.entregas import Entrega
 
-    # Fallback mock (caso DB não esteja disponível)
-    data = {
-        "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
-        "datasets": [
-            {
-                "data": [40, 10, 20, 15],
-                "backgroundColor": ["#4dc9f6", "#f67019", "#f53794", "#537bc4"]
-            }
-        ]
-    }
-    return jsonify(data)
+        # Métodos conhecidos e ordem fixa
+        metodos_ordem = ["a_prazo", "pix", "cartao", "dinheiro"]
+        counts_map = {m: 0 for m in metodos_ordem}
+
+        resultados = db.session.query(Entrega.metodo_pagamento, func.count(Entrega.id)) \
+            .filter(Entrega.metodo_pagamento.isnot(None), Entrega.entregue.is_(True)) \
+            .group_by(Entrega.metodo_pagamento).all()
+
+        for metodo, qtd in resultados:
+            if metodo in counts_map:
+                counts_map[metodo] = qtd
+
+        data = {
+            "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
+            "datasets": [
+                {
+                    "data": [counts_map["a_prazo"], counts_map["pix"], counts_map["cartao"], counts_map["dinheiro"]],
+                    "backgroundColor": ["#4dc9f6", "#f67019", "#f53794", "#537bc4"]
+                }
+            ]
+        }
+        return jsonify(data)
+    except Exception:
+        # Fallback simples se ocorrer erro com o DB
+        data = {
+            "labels": ["A prazo", "Pix", "Cartão", "Dinheiro"],
+            "datasets": [
+                {
+                    "data": [0, 0, 0, 0],
+                    "backgroundColor": ["#4dc9f6", "#f67019", "#f53794", "#537bc4"]
+                }
+            ],
+            "summary": {"status": "Falha ao acessar entregas; retornando zeros."}
+        }
+        return jsonify(data)
 
 
 @api_bp.route('/clientes', methods=['POST'])
