@@ -1,7 +1,6 @@
 from app import create_app, db
 from app.models.users import User
 from app.models.estoque import Estoque
-from app.models.metodosPagamento import MetodosPagamento
 from app.models.clientes import Cliente
 from app.models.entregas import Entrega
 from werkzeug.security import generate_password_hash
@@ -49,19 +48,6 @@ def init_test_users():
         else:
             print('Registro de estoque já existe')
 
-        # Cria registro de metodos de pagamento para testes se não existir
-        if not MetodosPagamento.query.first():
-            mp = MetodosPagamento(
-                a_prazo=40,
-                pix=25,
-                cartao=20,
-                dinheiro=15
-            )
-            db.session.add(mp)
-            db.session.commit()
-            print('Registro de métodos de pagamento criado (teste)')
-        else:
-            print('Registro de métodos de pagamento já existe')
 
         # Cria alguns clientes de teste se não existirem
         if not Cliente.query.first():
