@@ -213,3 +213,25 @@ def api_entrega_confirm(entrega_id):
         except Exception:
             pass
         return jsonify({'error': 'Falha ao confirmar entrega', 'detail': str(e)}), 500
+
+
+@api_bp.route('/entregas/<int:entrega_id>/pagar', methods=['POST'])
+def api_entrega_pagar(entrega_id):
+    """Marca uma entrega como paga (pago=True) somente se já estiver entregue."""
+    try:
+        from app import db
+        from app.models.entregas import Entrega
+        entrega = Entrega.query.get(entrega_id)
+        if not entrega:
+            return jsonify({'error': 'Entrega não encontrada'}), 404
+        if not entrega.entregue:
+            return jsonify({'error': 'Entrega ainda não marcada como entregue'}), 400
+        entrega.pago = True
+        db.session.commit()
+        return jsonify({'ok': True, 'entrega': entrega.to_dict()})
+    except Exception as e:
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return jsonify({'error': 'Falha ao marcar pagamento', 'detail': str(e)}), 500

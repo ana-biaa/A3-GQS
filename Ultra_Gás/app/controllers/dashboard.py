@@ -154,3 +154,26 @@ def get_estoque_cards():
         }
     }
     return jsonify(data)
+
+
+@dashboard_bp.route('/pagamentos-pendentes', methods=['GET'])
+def get_pagamentos_pendentes():
+    """Retorna entregas já entregues mas ainda não pagas (entregue=True, pago=False)."""
+    try:
+        pendentes = Entrega.query.filter(Entrega.entregue.is_(True), Entrega.pago.is_(False)).all()
+        return jsonify([e.to_dict() for e in pendentes])
+    except Exception:
+        # Fallback com exemplo
+        return jsonify([
+            {
+                'id': 1001,
+                'endereco': 'Rua Exemplo Pagamento, 50',
+                'destinatario': 'Cliente Pagamento',
+                'produto': 'p20:1',
+                'metodo_pagamento': 'pix',
+                'encarregado': 'Equipe A',
+                'entregue': True,
+                'pago': False,
+                'preco': '200'
+            }
+        ])

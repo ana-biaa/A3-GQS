@@ -64,7 +64,9 @@
                         <li class="nav-link">
                             <a href="#">
                                 <i class="bx bxs-truck icon"></i>
-                                <span class="text nav-text">Entregas</span>
+                                <span class="text nav-text"
+                                    >Confirmar Pagamento</span
+                                >
                             </a>
                         </li>
                         <li class="nav-link">
@@ -541,9 +543,33 @@
                     </form>
                 </div>
             </div>
-            <div id="entregas" class="conteudo">
-                <div class="teste-container">
-                    <h1 class="teste-title">Controle de Entregas</h1>
+            <div id="confirmarpagamento" class="conteudo">
+                <div class="entrega-container">
+                    <h1 class="section-title">Confirmar Pagamento</h1>
+                    <div class="entrega-lista-wrap">
+                        <div
+                            id="lista-pagamentos-pendentes"
+                            class="entrega-lista"
+                        >
+                            Carregando...
+                        </div>
+                        <div class="scroll-controls" aria-hidden="false">
+                            <button
+                                id="scroll-up-pag"
+                                class="small-scroll"
+                                aria-label="Rolar para cima"
+                            >
+                                ▲
+                            </button>
+                            <button
+                                id="scroll-down-pag"
+                                class="small-scroll"
+                                aria-label="Rolar para baixo"
+                            >
+                                ▼
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="financeiro" class="conteudo">
@@ -607,5 +633,6 @@
         <script src="/static/js/dashboardDynamic.js"></script>
         <script src="/static/js/clientes.js"></script>
         <script src="/static/js/pedidos.js"></script>
+        <script src="/static/js/confirmarPagamento.js"></script>
     </body>
 </html>

@@ -707,11 +707,11 @@ header .image-text .header-text {
     }
 }
 
-/* =====================
-        Entregas
-===================== */
+/* ============================
+        Confirmar Pagamento
+============================== */
 
-#entregas {
+#confirmarpagamento {
     justify-content: center;
     align-items: center;
     height: 100%;
