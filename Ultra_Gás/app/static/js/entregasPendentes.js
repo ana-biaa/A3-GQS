@@ -66,13 +66,89 @@ document.addEventListener('DOMContentLoaded', function () {
                 const btnView = document.createElement('button');
                 btnView.className = 'small-btn';
                 btnView.textContent = 'Visualizar';
-                const btnConfirm = document.createElement('button');
-                btnConfirm.className = 'small-btn';
-                btnConfirm.textContent = 'Confirmar';
+                const btnRetirar = document.createElement('button');
+                btnRetirar.className = 'small-btn';
+                btnRetirar.textContent = 'Retirar';
                 actions.appendChild(btnView);
-                actions.appendChild(btnConfirm);
+                actions.appendChild(btnRetirar);
 
                 body.appendChild(actions);
+
+                // Modal visualizar
+                btnView.addEventListener('click', function () {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'pedido-modal-overlay';
+                    const modal = document.createElement('div');
+                    modal.className = 'pedido-modal-card';
+                    const closeBtn = document.createElement('button');
+                    closeBtn.className = 'modal-close';
+                    closeBtn.innerHTML = '&times;';
+                    const title = document.createElement('h3');
+                    title.textContent = 'Detalhes da Entrega';
+                    const info = document.createElement('div');
+                    info.className = 'modal-info';
+                    info.innerHTML = `
+                        <p><strong>Destinatário:</strong> ${item.destinatario || ''}</p>
+                        <p><strong>Endereço:</strong> ${item.endereco || ''}</p>
+                        <p><strong>Produtos:</strong> ${item.produto || ''}</p>
+                        <p><strong>Método de Pagamento:</strong> ${formatMetodo(item.metodo_pagamento) || ''}</p>
+                        <p><strong>Preço:</strong> R$ ${item.preco || '0'}</p>
+                    `;
+                    closeBtn.addEventListener('click', function () {
+                        overlay.remove();
+                    });
+                    overlay.addEventListener('click', function (ev) {
+                        if (ev.target === overlay) overlay.remove();
+                    });
+                    modal.appendChild(closeBtn);
+                    modal.appendChild(title);
+                    modal.appendChild(info);
+                    overlay.appendChild(modal);
+                    document.body.appendChild(overlay);
+                });
+
+                // Retirar (atribuir encarregado)
+                btnRetirar.addEventListener('click', function () {
+                    if (!item.id) {
+                        console.warn('Entrega sem id, não é possível retirar.');
+                        return;
+                    }
+                    btnRetirar.disabled = true;
+                    fetch(`/api/entregas/${item.id}/retirar`, { method: 'POST' })
+                        .then(r => r.json().then(j => ({ ok: r.ok, status: r.status, data: j })))
+                        .then(resp => {
+                            if (!resp.ok) {
+                                btnRetirar.disabled = false;
+                                mostrarMensagem(`Falha: ${resp.data.error || 'Erro ao retirar.'}`);
+                                return;
+                            }
+                            // Remove card da lista (deixará de aparecer entre pendentes)
+                            card.remove();
+                            mostrarMensagem('Entrega atribuída ao seu usuário.');
+                            // Dispara evento para atualizar bloco de entrega atual
+                            setTimeout(() => {
+                                document.dispatchEvent(new CustomEvent('entrega-atual-atualizar'));
+                            }, 150);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            btnRetirar.disabled = false;
+                            mostrarMensagem('Erro de rede ao retirar.');
+                        });
+                });
+
+                function mostrarMensagem(msg) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'pedido-modal-overlay';
+                    const modal = document.createElement('div');
+                    modal.className = 'pedido-modal-card';
+                    const pMsg = document.createElement('p');
+                    pMsg.textContent = msg;
+                    modal.appendChild(pMsg);
+                    overlay.appendChild(modal);
+                    document.body.appendChild(overlay);
+                    setTimeout(() => overlay.remove(), 3000);
+                }
 
                 card.appendChild(icon);
                 card.appendChild(body);

@@ -79,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Atualiza quando evento global disparado após retirar nova entrega
+    document.addEventListener('entrega-atual-atualizar', () => fetchEntregas());
+
     function confirmarEntrega(id, cardEl) {
         if (!id) return;
         fetch(`/api/entregas/${id}/confirm`, { method: 'POST' })
