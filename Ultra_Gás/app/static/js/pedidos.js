@@ -18,6 +18,7 @@
         const next = Math.max(0, (state[key] || 0) + delta);
         state[key] = next;
         updateQtyDisplay(key);
+        updateTotalDisplay();
     }
 
     function bindProductCards() {
@@ -47,6 +48,28 @@
 
     function produtosToString(produtos) {
         return produtos.map(p => `${p.nome}:${p.quantidade}`).join(', ');
+    }
+
+    function calcularTotalAtual() {
+        const PRECO_UNIT = { p45: 400, p20: 200, p13: 130, p8: 100, p5: 90, agua: 10 };
+        let total = 0;
+        Object.entries(state).forEach(([nome, quantidade]) => {
+            if (quantidade > 0 && PRECO_UNIT[nome] != null) {
+                total += PRECO_UNIT[nome] * quantidade;
+            }
+        });
+        return total;
+    }
+
+    function formatBRL(valor) {
+        try { return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); } catch { return 'R$ ' + valor; }
+    }
+
+    function updateTotalDisplay() {
+        const span = document.getElementById('pedido-total-valor');
+        if (!span) return;
+        const total = calcularTotalAtual();
+        span.textContent = formatBRL(total);
     }
 
     function showPedidoModal(message, title = 'Aviso', type = 'info', autoClose = false) {
@@ -146,6 +169,7 @@
                     // desmarcar pagamentos
                     const sel = document.querySelector('input[name="pagamento"]:checked');
                     if (sel) sel.checked = false;
+                    updateTotalDisplay();
                     console.log('Resposta do servidor', body);
                 } else {
                     const msg = body?.error || 'Erro ao enviar pedido';
@@ -163,6 +187,7 @@
         loadEnderecoSuggestions();
         bindProductCards();
         Object.keys(state).forEach(updateQtyDisplay);
+        updateTotalDisplay();
 
         // Busca endereços já cadastrados e popula um datalist para sugestões
         async function loadEnderecoSuggestions() {

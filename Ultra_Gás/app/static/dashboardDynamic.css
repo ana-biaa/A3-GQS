@@ -556,6 +556,20 @@ header .image-text .header-text {
     gap: 28px;
 }
 
+/* Total do Pedido (movido de inline style) */
+#pedido-total-display {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: #111;
+}
+
 .sub-title {
     color: var(--cor-texto);
     font-size: 1.3rem;
