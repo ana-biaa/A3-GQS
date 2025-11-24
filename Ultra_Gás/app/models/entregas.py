@@ -1,4 +1,5 @@
 from app import db
+from datetime import date
 
 
 class Entrega(db.Model):
@@ -25,6 +26,8 @@ class Entrega(db.Model):
     pago = db.Column(db.Boolean, nullable=False, default=False, server_default='0')          # inicia False
     # novo campo de preço total do pedido (string formatada ou valor simples) inicia vazio
     preco = db.Column(db.String(32), nullable=True, default='', server_default='')
+    # data em que o pedido foi criado (ISO yyyy-mm-dd)
+    data = db.Column(db.String(10), nullable=True, default=lambda: date.today().isoformat())
 
     # Constraint simples para garantir que, quando informado, o método esteja entre os permitidos.
     # Observe: se mudar os valores permitidos, atualize também esta expressão.
@@ -42,5 +45,6 @@ class Entrega(db.Model):
             'encarregado': self.encarregado,
             'entregue': self.entregue,
             'pago': self.pago,
-            'preco': self.preco
+            'preco': self.preco,
+            'data': self.data
         }

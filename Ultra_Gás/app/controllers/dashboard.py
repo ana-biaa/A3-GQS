@@ -113,27 +113,55 @@ def get_clientes():
 def get_dashboard_cards():
     """Rota que retorna os valores exibidos nos cartões da seção principal (dashboard-cards).
 
-    Campos retornados (simulados):
-      - pedidos_pendentes: número
-      - vendas_do_dia: número
-      - entregadores_em_rota: número
-      - status_estoque_percent: número (percentual)
+    Campos retornados (dinâmicos a partir de Entrega/Estoque):
+      - pedidos_pendentes_num: número de entregas com entregue == False
+      - vendas_do_dia_num: número de entregas do dia atual (data == hoje)
+      - entregadores_em_rota_num: número de entregas com encarregado != '' e entregue == False
+      - status_estoque_percent_num: número (percentual) calculado a partir de Estoque
     """
-    # Tenta calcular o status do estoque a partir do registro no DB
+    from datetime import date
+
+    # Valores default em caso de erro
+    pedidos_pendentes = 0
+    vendas_hoje = 0
+    entregadores_rota = 0
     status_percent = 0
+
+    # Calcula percent do estoque
     try:
         estoque = Estoque.query.first()
         if estoque:
             status_percent = estoque.percent()
     except Exception:
-        # se algo falhar, manter 0 e não bloquear a rota
         status_percent = 0
 
+    hoje_str = date.today().isoformat()
+
+    try:
+        # Pedidos pendentes: entregas não entregues
+        pedidos_pendentes = Entrega.query.filter(Entrega.entregue.is_(False)).count()
+
+        # Vendas do dia (card superior): quantidade de entregas criadas hoje
+        vendas_hoje = Entrega.query.filter(Entrega.data == hoje_str).count()
+
+        # Entregadores em rota: quantidade de encarregados distintos com entregas em aberto
+        entregadores_rota = (
+            db.session.query(Entrega.encarregado)
+            .filter(Entrega.encarregado != '', Entrega.entregue.is_(False))
+            .distinct()
+            .count()
+        )
+    except Exception:
+        # Em caso de erro com a tabela de entregas, mantém zeros
+        pedidos_pendentes = pedidos_pendentes or 0
+        vendas_hoje = vendas_hoje or 0
+        entregadores_rota = entregadores_rota or 0
+
     data = {
-        "pedidos_pendentes_num": 24,
-        "vendas_do_dia_num": 57,
-        "entregadores_em_rota_num": 8,
-        "status_estoque_percent_num": int(status_percent)
+        "pedidos_pendentes_num": int(pedidos_pendentes or 0),
+        "vendas_do_dia_num": int(vendas_hoje or 0),
+        "entregadores_em_rota_num": int(entregadores_rota or 0),
+        "status_estoque_percent_num": int(status_percent or 0)
     }
     return jsonify(data)
 
@@ -142,13 +170,25 @@ def get_dashboard_cards():
 def get_estoque_cards():
     """Rota que retorna os valores exibidos nos cartões da seção Estoque/Financeiro (simulados).
 
-    Campos retornados (simulados):
-      - vendas_do_dia: string (R$ ...)
-      - pagamentos: { recebidos: string (R$ ...), pendentes: string (R$ ...) }
+    Campos retornados:
+      - vendas_do_dia_num: soma de preco das entregas com data == hoje
+      - pagamentos: { recebidos_num, pendentes_num } em centavos/reais inteiros
     """
     # Calcula valores reais a partir da tabela Entrega.
-    # vendas_do_dia_num permanece como valor simples (não há campo de data em Entrega para filtrar por dia).
     try:
+        from datetime import date
+        hoje_str = date.today().isoformat()  # yyyy-mm-dd
+
+        # Vendas do dia: todas as entregas criadas hoje (independente de pago/entregue)
+        vendas_hoje = Entrega.query.filter(Entrega.data == hoje_str).all()
+        vendas_total = 0
+        for e in vendas_hoje:
+            try:
+                vendas_total += int(e.preco or 0)
+            except ValueError:
+                # ignora preços inválidos
+                pass
+
         # Total recebido: entregas pagas (pago=True)
         recebidas = Entrega.query.filter(Entrega.pago.is_(True)).all()
         recebidos_total = 0
@@ -159,8 +199,9 @@ def get_estoque_cards():
                 # Ignora valores não numéricos
                 pass
 
-        # Total pendente: entregas já entregues mas não pagas (entregue=True, pago=False)
-        pendentes = Entrega.query.filter(Entrega.entregue.is_(True), Entrega.pago.is_(False)).all()
+        # Total pendente: entregas já entregues mas não pagas (entregue=True, pago=False) Versão antiga
+        # Total pendente: pedido realizado, mas ainda não pago (pago=False) Versão atual
+        pendentes = Entrega.query.filter(Entrega.pago.is_(False)).all()
         pendentes_total = 0
         for e in pendentes:
             try:
@@ -169,7 +210,7 @@ def get_estoque_cards():
                 pass
 
         data = {
-            "vendas_do_dia_num": 1000,  # Placeholder até existir lógica de vendas por dia
+            "vendas_do_dia_num": vendas_total,
             "pagamentos": {
                 "recebidos_num": recebidos_total,
                 "pendentes_num": pendentes_total
