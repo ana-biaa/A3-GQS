@@ -89,7 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(resp => {
                 if (resp.ok) {
                     cardEl.classList.add('entregue');
-                    setTimeout(fetchEntregas, 400);
+                    setTimeout(() => {
+                        fetchEntregas();
+                        // Atualiza cards do dashboard (ex.: entregas concluídas)
+                        if (typeof fetchAndApplyDashboardCards === 'function') {
+                            fetchAndApplyDashboardCards();
+                        } else {
+                            // fallback: dispara evento para quem quiser ouvir
+                            document.dispatchEvent(new CustomEvent('dashboard-cards-atualizar'));
+                        }
+                    }, 400);
                 } else {
                     alert('Falha ao confirmar entrega');
                 }

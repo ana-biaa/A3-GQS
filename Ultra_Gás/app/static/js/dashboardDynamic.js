@@ -286,6 +286,7 @@ function fetchAndApplyDashboardCards() {
         })
         .then(data => {
             try {
+                // Cards do admin
                 const pedidosEl = document.getElementById('pedidosPendentesNumber');
                 const vendasEl = document.getElementById('vendasDiaNumber');
                 const entregEl = document.getElementById('entregadoresRotaNumber');
@@ -297,6 +298,25 @@ function fetchAndApplyDashboardCards() {
                 if (estoqueEl) {
                     const pct = (data.status_estoque_percent_num != null) ? Number(data.status_estoque_percent_num) : (data.status_estoque_percent || 0);
                     estoqueEl.textContent = `${formatIntegerBR(pct)}%`;
+                }
+
+                // Cards do entregador (dashboard.html)
+                const entregaAtualEl = document.getElementById('cardEntregaAtualNumber');
+                const pendentesEl = document.getElementById('cardEntregasPendentesNumber');
+                const concluidasEl = document.getElementById('cardEntregasConcluidasNumber');
+
+                if (entregaAtualEl) entregaAtualEl.textContent = formatIntegerBR(data.entregas_atual_usuario_num || 0);
+                if (pendentesEl) pendentesEl.textContent = formatIntegerBR(data.pedidos_pendentes_num || 0);
+                if (concluidasEl) concluidasEl.textContent = formatIntegerBR(data.entregas_concluidas_usuario_num || 0);
+
+                // Ação do card "Relatar problema": rolar para seção de entrega atual (placeholder)
+                const relatarBtn = document.getElementById('cardRelatarProblema');
+                if (relatarBtn && !relatarBtn.dataset.bound) {
+                    relatarBtn.dataset.bound = 'true';
+                    relatarBtn.addEventListener('click', () => {
+                        console.log('Relatar problema clicado');
+                        alert('Funcionalidade de relato de problema ainda será implementada.');
+                    });
                 }
             } catch (e) {
                 console.warn('[cards] erro ao aplicar dados', e);

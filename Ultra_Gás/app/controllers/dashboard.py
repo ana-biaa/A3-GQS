@@ -113,11 +113,11 @@ def get_clientes():
 def get_dashboard_cards():
     """Rota que retorna os valores exibidos nos cartões da seção principal (dashboard-cards).
 
-    Campos retornados (dinâmicos a partir de Entrega/Estoque):
-      - pedidos_pendentes_num: número de entregas com entregue == False
-      - vendas_do_dia_num: número de entregas do dia atual (data == hoje)
-      - entregadores_em_rota_num: número de entregas com encarregado != '' e entregue == False
-      - status_estoque_percent_num: número (percentual) calculado a partir de Estoque
+        Campos retornados (dinâmicos a partir de Entrega/Estoque):
+            - pedidos_pendentes_num: número de entregas sem encarregado e entregue == False
+            - vendas_do_dia_num: número de entregas do dia atual (data == hoje)
+            - entregadores_em_rota_num: quantidade de encarregados distintos com entregas em aberto
+            - status_estoque_percent_num: número (percentual) calculado a partir de Estoque
     """
     from datetime import date
 
@@ -138,30 +138,52 @@ def get_dashboard_cards():
     hoje_str = date.today().isoformat()
 
     try:
-        # Pedidos pendentes: entregas não entregues
-        pedidos_pendentes = Entrega.query.filter(Entrega.entregue.is_(False)).count()
+        # Pedidos pendentes (admin e entregador): entregas ainda não atribuídas (sem encarregado) e não entregues
+        pedidos_pendentes = Entrega.query.filter(Entrega.encarregado == '', Entrega.entregue.is_(False)).count()
 
-        # Vendas do dia (card superior): quantidade de entregas criadas hoje
+        # Vendas do dia (admin): quantidade de entregas criadas hoje
         vendas_hoje = Entrega.query.filter(Entrega.data == hoje_str).count()
 
-        # Entregadores em rota: quantidade de encarregados distintos com entregas em aberto
+        # Entregadores em rota (admin): quantidade de encarregados distintos com entregas em aberto
         entregadores_rota = (
             db.session.query(Entrega.encarregado)
             .filter(Entrega.encarregado != '', Entrega.entregue.is_(False))
             .distinct()
             .count()
         )
+
+        # Métricas por usuário logado (dashboard do entregador)
+        user_name = session.get('user_name')
+        if user_name:
+            # Entrega atual: entregas atribuídas ao usuário e não entregues
+            entregas_atual_usuario = Entrega.query.filter(
+                Entrega.encarregado == user_name,
+                Entrega.entregue.is_(False)
+            ).count()
+
+            # Entregas concluídas: atribuídas ao usuário e marcadas como entregues
+            entregas_concluidas_usuario = Entrega.query.filter(
+                Entrega.encarregado == user_name,
+                Entrega.entregue.is_(True)
+            ).count()
+        else:
+            entregas_atual_usuario = 0
+            entregas_concluidas_usuario = 0
     except Exception:
         # Em caso de erro com a tabela de entregas, mantém zeros
         pedidos_pendentes = pedidos_pendentes or 0
         vendas_hoje = vendas_hoje or 0
         entregadores_rota = entregadores_rota or 0
+        entregas_atual_usuario = 0
+        entregas_concluidas_usuario = 0
 
     data = {
         "pedidos_pendentes_num": int(pedidos_pendentes or 0),
         "vendas_do_dia_num": int(vendas_hoje or 0),
         "entregadores_em_rota_num": int(entregadores_rota or 0),
-        "status_estoque_percent_num": int(status_percent or 0)
+        "status_estoque_percent_num": int(status_percent or 0),
+        "entregas_atual_usuario_num": int(entregas_atual_usuario or 0),
+        "entregas_concluidas_usuario_num": int(entregas_concluidas_usuario or 0)
     }
     return jsonify(data)
 

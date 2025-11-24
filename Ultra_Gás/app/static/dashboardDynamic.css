@@ -217,6 +217,17 @@ header .image-text .header-text {
     gap: 25px;
 }
 
+.card-button {
+    border: none;
+    background: none;
+    padding: 0;
+    text-align: left;
+}
+
+.card-button:focus {
+    outline: none;
+}
+
 /* ESTILO DOS CARDS */
 .card {
     background: var(--cor-secundaria);
