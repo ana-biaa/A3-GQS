@@ -228,25 +228,105 @@ def api_entrega_confirm(entrega_id):
 
 @api_bp.route('/entregas/<int:entrega_id>/retirar', methods=['POST'])
 def api_entrega_retirar(entrega_id):
-    """Atribui a entrega ao usuário logado (encarregado). Não marca como entregue.
+    """Atribui a entrega ao usuário logado (encarregado) e baixa o estoque.
+
+    Momento da baixa de estoque: quando o usuário "retira" o pedido para entrega.
 
     Regras:
       - Requer sessão com user_name.
       - Se entrega já tiver encarregado diferente, retorna 409.
-      - Se encarregado estiver vazio ou igual ao usuário, atribui e retorna registro.
+      - Se encarregado estiver vazio ou igual ao usuário, tenta atribuir e baixar estoque.
+      - Campo produto da entrega é uma string no formato "agua:2, p45:1".
     """
+
+    def _parse_produtos(produto_str):
+        """Converte a string de produtos em um dicionário de quantidades.
+
+        Exemplo de entrada: "agua:2, p45:1" -> {"agua": 2, "p45": 1}
+        Ignora partes vazias e quantidades inválidas (<=0).
+        """
+        result = {}
+        if not produto_str:
+            return result
+        for part in produto_str.split(','):
+            part = part.strip()
+            if not part:
+                continue
+            if ':' not in part:
+                continue
+            tipo, qtd_str = part.split(':', 1)
+            tipo = (tipo or '').strip().lower()
+            qtd_str = (qtd_str or '').strip()
+            if not tipo or not qtd_str:
+                continue
+            try:
+                qtd = int(qtd_str)
+            except ValueError:
+                continue
+            if qtd <= 0:
+                continue
+            # acumula se houver repetição do mesmo tipo
+            result[tipo] = result.get(tipo, 0) + qtd
+        return result
+
     user_name = session.get('user_name')
     if not user_name:
         return jsonify({'error': 'Usuário não autenticado'}), 401
     try:
         from app import db
         from app.models.entregas import Entrega
+        from app.models.estoque import Estoque
+
         entrega = Entrega.query.get(entrega_id)
         if not entrega:
             return jsonify({'error': 'Entrega não encontrada'}), 404
+
+        # Se já atribuída a outro usuário, não permite retirar
         if entrega.encarregado and entrega.encarregado != user_name:
             return jsonify({'error': 'Entrega já atribuída', 'encarregado': entrega.encarregado}), 409
+
+        # Carrega registro de estoque
+        estoque = Estoque.query.first()
+        if not estoque:
+            return jsonify({'error': 'Estoque não configurado'}), 500
+
+        # Se a entrega já estiver atribuída ao mesmo usuário, não baixa estoque de novo
+        if entrega.encarregado == user_name:
+            return jsonify({'ok': True, 'entrega': entrega.to_dict(), 'warning': 'Entrega já atribuída a este usuário. Nenhuma nova baixa de estoque executada.'})
+
+        itens = _parse_produtos(entrega.produto)
+
+        # Mapeia chaves de produto para campos do modelo Estoque
+        campo_map = {
+            'p45': 'p45',
+            'p20': 'p20',
+            'p13': 'p13',
+            'p8': 'p8',
+            'p5': 'p5',
+            'agua': 'agua',
+        }
+
+        # Validação de estoque suficiente
+        for tipo, qtd in itens.items():
+            campo = campo_map.get(tipo)
+            if not campo:
+                # Produto desconhecido, ignora na baixa mas avisa
+                continue
+            atual = getattr(estoque, campo) or 0
+            if atual < qtd:
+                return jsonify({'error': f'Estoque insuficiente para {tipo}. Disponível: {atual}, necessário: {qtd}'}), 400
+
+        # Aplica baixa
+        for tipo, qtd in itens.items():
+            campo = campo_map.get(tipo)
+            if not campo:
+                continue
+            atual = getattr(estoque, campo) or 0
+            setattr(estoque, campo, atual - qtd)
+
+        # Atribui entrega ao usuário
         entrega.encarregado = user_name
+
         db.session.commit()
         return jsonify({'ok': True, 'entrega': entrega.to_dict()})
     except Exception as e:
