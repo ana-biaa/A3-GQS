@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const pPreco = document.createElement('p');
             pPreco.textContent = 'Preço: R$ ' + (item.preco || '0');
 
+            const pMetodo = document.createElement('p');
+            pMetodo.textContent = 'Método: ' + (item.metodo_pagamento || '-');
+
             const btnPagar = document.createElement('button');
             btnPagar.className = 'small-btn';
             btnPagar.textContent = 'Marcar Pago';
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body.appendChild(h2);
             body.appendChild(pEndereco);
             body.appendChild(pEncarregado);
+            body.appendChild(pMetodo);
             body.appendChild(pProduto);
             body.appendChild(pPreco);
             body.appendChild(btnPagar);
