@@ -254,7 +254,7 @@ def get_estoque_cards():
 def get_pagamentos_pendentes():
     """Retorna entregas já entregues mas ainda não pagas (entregue=True, pago=False)."""
     try:
-        pendentes = Entrega.query.filter(Entrega.entregue.is_(True), Entrega.pago.is_(False)).all()
+        pendentes = Entrega.query.filter(Entrega.pago.is_(False)).all()
         return jsonify([e.to_dict() for e in pendentes])
     except Exception:
         # Fallback com exemplo
